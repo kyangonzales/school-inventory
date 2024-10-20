@@ -1,1 +1,1 @@
-# inventory
+# school-inventory
