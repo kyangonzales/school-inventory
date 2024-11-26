@@ -1,0 +1,60 @@
+<!-- <div class="flex justify-end mb-4">
+	<button class="flex items-center bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300">
+	<i class="fa-solid fa-file-arrow-down me-2"></i>
+	Export
+  </button>
+</div> -->
+<div class="relative mb-4 mt-10">
+	<header 
+		[title]="pageTitle" 
+		[modalTitle]="'Add Stock'" 
+		[fields]="modalFields" 
+		(onSubmitCallback)="handleAddStock($event)"
+		(exportPDFEvent) = "exportStock()"
+		(search)="onSearch($event)"
+		> 
+	</header>
+
+	<div class="overflow-x-auto bg-white p-5 shadow-lg rounded-lg">
+		<table class="min-w-full table-auto border-collapse mt-8">
+			<thead>
+				<tr class=" text-gray-700">
+					<th class="px-4 py-2 text-center">#</th>
+					<th class="px-4 py-2 text-center">Name</th>
+					<th class="px-4 py-2 text-center">Good</th>
+					<th class="px-4 py-2 text-center">Missing</th>
+					<th class="px-4 py-2 text-center">Damage</th>
+					<th class="px-4 py-2 text-center">Total</th>
+				</tr>
+			</thead>
+			<tbody>
+				@for(stock of filteredStocks; track stock._id; let index=$index){
+					<tr class="border-t hover:bg-gray-100 text-center odd:bg-white odd:dark:bg-gray-100">
+						<td class="px-4 py-2">{{index+1}}</td>
+						<td class="px-4 py-2">{{stock.name}}</td>
+						<td class="px-4 py-2">{{stock.good}}</td>
+						<td class="px-4 py-2">{{stock.missing}}</td>
+						<td class="px-4 py-2">{{stock.damage}}</td>
+						<td class="px-4 py-2">{{stock.total}}</td>
+					</tr>
+				}
+				<tr *ngIf="filteredStocks.length === 0" class="border-t hover:bg-gray-50 text-center"> 
+					<td class="px-4 py-2" colspan="8">No results found</td> 
+				</tr>
+			</tbody>
+		</table>
+
+
+		
+		
+		<pagination 
+		[totalItems]="paginationService.totalItems" 
+		[(itemsPerPage)]="paginationService.itemsPerPage" 
+		[currentPage]="paginationService.currentPage"
+		(itemsPerPageChange)="onStocksPerPageChange($event)"
+		(pageChange)="onPageChange($event)">
+		</pagination>
+
+
+	</div>
+</div>

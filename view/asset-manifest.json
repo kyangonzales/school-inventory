@@ -1,0 +1,43 @@
+{
+  "files": {
+    "main.css": "/static/css/main.e05d6950.chunk.css",
+    "main.js": "/static/js/main.a0adc8aa.chunk.js",
+    "main.js.map": "/static/js/main.a0adc8aa.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.5050ecab.js",
+    "runtime-main.js.map": "/static/js/runtime-main.5050ecab.js.map",
+    "static/css/2.daa89021.chunk.css": "/static/css/2.daa89021.chunk.css",
+    "static/js/2.01a286d5.chunk.js": "/static/js/2.01a286d5.chunk.js",
+    "static/js/2.01a286d5.chunk.js.map": "/static/js/2.01a286d5.chunk.js.map",
+    "static/js/3.6c165f95.chunk.js": "/static/js/3.6c165f95.chunk.js",
+    "static/js/3.6c165f95.chunk.js.map": "/static/js/3.6c165f95.chunk.js.map",
+    "static/js/4.5bd00ab3.chunk.js": "/static/js/4.5bd00ab3.chunk.js",
+    "static/js/4.5bd00ab3.chunk.js.map": "/static/js/4.5bd00ab3.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.e8dbc6c99b3dcbe8c60070a55277c11e.js": "/precache-manifest.e8dbc6c99b3dcbe8c60070a55277c11e.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/2.daa89021.chunk.css.map": "/static/css/2.daa89021.chunk.css.map",
+    "static/css/main.e05d6950.chunk.css.map": "/static/css/main.e05d6950.chunk.css.map",
+    "static/js/2.01a286d5.chunk.js.LICENSE.txt": "/static/js/2.01a286d5.chunk.js.LICENSE.txt",
+    "static/js/3.6c165f95.chunk.js.LICENSE.txt": "/static/js/3.6c165f95.chunk.js.LICENSE.txt",
+    "static/js/4.5bd00ab3.chunk.js.LICENSE.txt": "/static/js/4.5bd00ab3.chunk.js.LICENSE.txt",
+    "static/js/main.a0adc8aa.chunk.js.LICENSE.txt": "/static/js/main.a0adc8aa.chunk.js.LICENSE.txt",
+    "static/media/mdb.css": "/static/media/default-skin.b257fa9c.svg",
+    "static/media/bg10.png": "/static/media/bg10.7bbf6fac.png",
+    "static/media/bg6.png": "/static/media/bg6.5fd886b4.png",
+    "static/media/bg7.png": "/static/media/bg7.31eb7d9f.png",
+    "static/media/bg8.png": "/static/media/bg8.1731283b.png",
+    "static/media/bg9.png": "/static/media/bg9.cf2c0c3a.png",
+    "static/media/deped.png": "/static/media/deped.c59d06df.png",
+    "static/media/all.min.css": "/static/media/fa-solid-900.d824df7e.woff2",
+    "static/media/style.css": "/static/media/wave.05d52988.png",
+    "static/media/lmbnhs logo.png": "/static/media/lmbnhs logo.0bc9a6e7.png",
+    "static/media/logo.png": "/static/media/logo.00b7e658.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.5050ecab.js",
+    "static/css/2.daa89021.chunk.css",
+    "static/js/2.01a286d5.chunk.js",
+    "static/css/main.e05d6950.chunk.css",
+    "static/js/main.a0adc8aa.chunk.js"
+  ]
+}

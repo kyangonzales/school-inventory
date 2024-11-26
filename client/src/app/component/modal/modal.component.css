@@ -1,0 +1,4 @@
+/* Custom CSS for the modal */
+.p-dialog-tailwind .p-dialog-content {
+  @apply p-8 bg-white rounded-lg shadow-2xl;
+}

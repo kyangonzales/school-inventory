@@ -1,0 +1,64 @@
+<div class="relative mb-4 mt-10">
+	<header 
+		[title]="pageTitle"
+		[modalTitle]="'Add Inventory'" 
+		[fields]="modalFields" 
+		(onSubmitCallback)="handleAddInventory($event)"
+		(search)="onSearch($event)" 
+		(exportPDFEvent) = "exportInventory()"
+	> 
+	</header>
+	
+	<div class="overflow-x-auto bg-white p-5 shadow-lg rounded-lg ">
+		<div class="flex justify-between items-center ">
+			<table class="min-w-full table-auto border-collapse mt-6">
+				<thead>
+					<tr class=" text-gray-700">
+						<th class="px-4 py-2 text-center">#</th>
+						<th class="px-4 py-2 text-center">Item</th>
+						<th class="px-4 py-2 text-center">Brand</th>
+						<th class="px-4 py-2 text-center">Quantity</th>
+						<th class="px-4 py-2 text-center">Status</th>
+						<th class="px-4 py-2 text-center">Registrar</th>
+						<th class="px-4 py-2 text-center">Date</th>
+					</tr>
+				</thead>
+				<tbody>
+					@for(log of filteredInventory; track log._id; let index=$index){
+						<tr class="border-t hover:bg-gray-100 text-center odd:bg-white odd:dark:bg-gray-100">
+							<td class="px-4 py-2">{{index+1}}</td>
+							<td class="px-4 py-2">{{log.item}}</td>
+							<td class="px-4 py-2">{{log.brand}}</td>
+							<td class="px-4 py-2">{{log.quantity}}</td>
+							<td class="px-4 py-2">{{log.status}}</td>
+							<td class="px-4 py-2">{{log.registrar}}</td>
+							<td class="px-4 py-2">{{log.date}}</td>
+							
+						</tr>
+					}
+					<tr *ngIf="filteredInventory.length === 0" class="border-t hover:bg-gray-50 text-center"> 
+						<td class="px-4 py-2" colspan="7">No results found</td> 
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<modal 
+			[isOpen]="isModalOpen" 
+			[modalTitle]="'Update Inventory'" 
+			[fields]="modalFields"
+			[editRow]="currentLog" 
+			(formSubmit)="handleFormSubmit($event)" 
+			(closeModal)="isModalOpen = false" 
+			> 
+		</modal>
+		<pagination 
+		[totalItems]="paginationService.totalItems" 
+		[(itemsPerPage)]="paginationService.itemsPerPage" 
+		[currentPage]="paginationService.currentPage"
+		(itemsPerPageChange)="onInventoryPerPageChange($event)"
+		(pageChange)="onPageChange($event)">
+		</pagination>
+
+	</div>
+</div>

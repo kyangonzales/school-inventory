@@ -1,0 +1,27 @@
+
+
+    <div class="flex items-center justify-between p-4  bg-white mt-6">
+      <div class="flex items-center space-x-3">
+        <label for="rows-per-page" class="text-gray-600 font-medium">Rows per page:</label>
+        <select [(ngModel)]="itemsPerPage" (change)="itemsPerPageChange.emit(itemsPerPage)" 
+                class="border border-gray-300 rounded-md px-1 py-1 text-gray-700 bg-white hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <option value="5">5</option>
+          <option value="10">10</option>
+          <option value="20">20</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+        </select>
+        <span class="text-gray-500">Total Items: <span class="font-semibold">{{ totalItems }}</span></span>
+      </div>
+        
+      <div class="flex items-center">
+        <button (click)="previousPage()" [disabled]="currentPage === 1" class="text-gray-500 hover:text-gray-700 mx-2">
+			<lucide-icon name="chevrons-left"></lucide-icon>
+		</button>
+        <span class="text-gray-700">Page <span class="font-semibold">{{ currentPage }}</span> of <span class="font-semibold">{{ totalPages }}</span></span>
+        <button (click)="nextPage()" [disabled]="currentPage === totalPages" class="text-gray-500 hover:text-gray-700 mx-2">
+			<lucide-icon name="chevrons-right"></lucide-icon>
+		</button>
+      </div>
+    </div>
+  

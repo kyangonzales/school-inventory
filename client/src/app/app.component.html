@@ -1,0 +1,29 @@
+<div *ngIf="authService.isLoggedIn(); else loginTemplate">
+  <div class="flex h-screen">
+    <sidebar></sidebar>
+    <div class="flex-1 flex flex-col">
+      <div class="bg-white p-4 flex justify-between items-center" style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+        <h4 class="text-2xl font-semibold oswald-font">REGISTRAR</h4>
+        <div class="relative me-4 font-semibold">
+          <div class="flex items-center space-x-2 cursor-pointer" (click)="toggleDropdown()">
+            <lucide-icon name="user"></lucide-icon>
+            <span>Profile</span>
+          </div>
+          <div *ngIf="dropdownVisible" class="absolute right-0 mt-2 bg-white shadow-lg rounded-lg w-48 z-20">
+            <div class="p-2">
+              <p class="text-sm">Rowel Tangalin</p>
+              <button class="w-full text-left text-sm text-red-600 mt-2 hover:text-red-800" (click)="logout()">Logout</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="w-full py-2 bg-[#F5F5F5]"></div>
+      <div class="w-full h-screen overflow-y-auto py-2 px-12 bg-[#F5F5F5]">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #loginTemplate>
+  <router-outlet></router-outlet>
+</ng-template>
