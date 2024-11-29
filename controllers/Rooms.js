@@ -1,5 +1,6 @@
 const Rooms = require("../models/Rooms");
-
+const Items = require ("../models/Items")
+const arrangeItems=require("../widgets/arrangeItems")
 exports.save = async (req, res) => {
   try {
     const room = await Rooms.create(req.body);
@@ -11,7 +12,13 @@ exports.save = async (req, res) => {
 
 exports.browse = async (req, res) => {
   try {
-    const rooms = await Rooms.find().sort({ createdAt: -1 });
+    const items= await arrangeItems()
+    console.log(items)
+    
+    const rooms = await Rooms.find().lean().sort({ createdAt: -1 });
+    // const roomsArranger = rooms.map((room)=>{
+    //  return {...room,}
+    // })
     res.json({
       payload: rooms.filter(({ deletedAt = "" }) => !deletedAt),
       message: "Successfully fetch rooms",

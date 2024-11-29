@@ -18,15 +18,12 @@ export class SidebarComponent {
     { id:4, label: 'Stocks', icon: 'Layers', path:'stocks' },
     { id:6, label: 'Room', icon: 'MapPinned', path:'room' },
     { 
-      id:5, 
-      label: 'Reports', 
-      icon: 'NotebookPen', 
-      path:'report', 
+      id:5, label: 'Reports', icon: 'NotebookPen', path:'report', 
       submenu: [
-        { id:7, label: 'Good', icon:'CircleCheckBig', path:'reports/good' },
-        { id:8, label: 'Damaged', icon:'XCircle', path:'reports/damaged' },
-        { id:9, label: 'Missing', icon: 'TriangleAlert', path:'reports/missing' }
-      ]
+        { id:7, label: 'Good', path:'good' },
+        { id:8, label: 'Damaged', path:'damage' },
+        { id:9, label: 'Missing', path:'missing' }
+      ]   
     }
   ]; 
 

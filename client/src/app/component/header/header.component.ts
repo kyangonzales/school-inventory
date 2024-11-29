@@ -4,6 +4,23 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Field } from '../../interface/field';
 import { LucideAngularModule } from 'lucide-angular';
 
+
+interface Brand{
+  name:string,
+  _id:string
+}
+interface Room{
+  name:string,
+  _id:string
+}
+interface Item {
+  _id: string;
+  name: string;
+  brand: Brand;
+  status:string,
+  barcode: string;
+  room: Room;
+}
 @Component({
   selector: 'header',
   standalone: true,
@@ -15,6 +32,7 @@ export class HeaderComponent implements OnInit {
   @Input() title: string = ''; 
   @Input() modalTitle: string = ''; 
   @Input() fields: Field[] = [];
+  @Input() items: Item[] = [];
   @Output() onSubmitCallback = new EventEmitter<any>();
   @Output() search = new EventEmitter<string>();
   @Output() exportPDFEvent = new EventEmitter<void>();
@@ -34,11 +52,70 @@ export class HeaderComponent implements OnInit {
       formControls[field.name] = ['', Validators.required];
       formControls[field.name + '_value'] = ['']; 
       this.filteredOptions[field.name] = [];
+ 
     });
     this.formGroup = this.formBuilder.group(formControls);
 
     document.addEventListener('click', this.onClickOutside.bind(this));
+    this.onBarcodeChange();
+    this.handleChange('brand', 'brand_value');
+    this.handleChange('room', 'room_value');
   }
+
+   
+
+
+  onBarcodeChange() {
+    this.formGroup.get('barcode')?.valueChanges.subscribe((value: any) => {
+      const itemFound = this.items.find(({ barcode }) => barcode === value);
+  
+      if (itemFound) {
+        const { brand, room, name, status, barcode } = itemFound;
+        const formGroup = { ...this.formGroup.value };
+  
+        formGroup.brand = brand?.name;
+        formGroup.brand_value = brand._id;
+        formGroup.room = room.name;
+        formGroup.room_value = room._id;
+        formGroup.name = name;
+        formGroup.name_value = name;
+        formGroup.quantity = 1;
+        formGroup.quantity_value = 1;
+        formGroup.barcode = barcode;
+        this.formGroup.patchValue(formGroup, { emitEvent: false });
+      }
+    });
+  }
+  handleChange(fieldName: string, valueKey: string) {
+    this.formGroup.get(fieldName)?.valueChanges.subscribe((value: any) => {
+      const fields = this.fields.find((field) => field.name === fieldName)?.options;
+      const field = fields?.find(({ label }) => label.toLowerCase() === value.toLowerCase());
+      console.log(`before updating ${valueKey}:`, this.formGroup.value);
+      if (!field && this.formGroup.get(fieldName)?.value !== "") {
+        this.formGroup.patchValue({ [valueKey]: "" }, { emitEvent: false });
+      } else if (field) {
+        this.formGroup.patchValue({ [valueKey]: field.value }, { emitEvent: false });
+      }
+      console.log(`after updating ${valueKey}:`, this.formGroup.value);
+    });
+  }
+  
+  // onRoomChange() {
+  //   this.formGroup.get('room')?.valueChanges.subscribe((value: any) => {
+  //     const rooms = this.fields.find((field) => field.name === 'room')?.options;
+  //     const room = rooms?.find(({ label }) => label.toLowerCase() === value.toLowerCase());
+  
+  //     console.log('before updating room_value:', this.formGroup.value);
+
+  //     if (!room && this.formGroup.get('room')?.value !== "") {
+  //       this.formGroup.patchValue({ room_value: "" }, { emitEvent: false });
+  //     } else if (room) {
+  //       this.formGroup.patchValue({ room_value: room.value }, { emitEvent: false });
+  //     }
+  //     console.log('after updating room_value:', this.formGroup.value);
+  //   });
+  // }
+  
   
   onSearch(event: any) { 
     this.search.emit(event.target.value); 
@@ -62,12 +139,13 @@ export class HeaderComponent implements OnInit {
     }
   }
 
+
+
   selectOption(fieldName: string, value: string, label: string) {
-    this.formGroup.get(fieldName)?.setValue(label);  
+    this.formGroup.get(fieldName)?.setValue(label);  // eto para sa label
     this.formGroup.get(fieldName + '_value')?.setValue(value);  
     this.filteredOptions[fieldName] = [];
     this.currentField = null; 
-
     const formValue = { ...this.formGroup.value };  
     const fields = [...this.fields];  
   
@@ -90,6 +168,7 @@ export class HeaderComponent implements OnInit {
       if (!this.formGroup.contains("quantity")) {
         this.formGroup.addControl("quantity", this.formBuilder.control("", Validators.required));
         this.formGroup.addControl("quantity_value", this.formBuilder.control(""));
+        
       }
     } else if (formValue.status_value !== "Find") {
       const conditionIndex = fields.findIndex(field => field.name === "condition");
@@ -119,12 +198,7 @@ export class HeaderComponent implements OnInit {
   onSubmit() {
     if (this.formGroup.valid) {
       const formValue = { ...this.formGroup.value };
-      this.fields.forEach(field => {
-        if (field.type === 'select') {
-          formValue[field.name] = formValue[field.name + '_value']; 
-          delete formValue[field.name + '_value']; 
-        }
-      });
+     
       this.onSubmitCallback.emit(formValue);
       this.formGroup.reset();
       this.isModalOpen = false;

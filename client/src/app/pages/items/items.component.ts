@@ -14,16 +14,22 @@ import { BrandService } from '../../services/brand.service';
 import { ImageService } from '../../services/image.service';
 import { PdfService } from '../../services/pdf.service';
 import { LucideAngularModule } from 'lucide-angular';
-interface Item {
-  _id: string;
-  name: string;
-  brand: string;
-  barcode: string;
-  room: string;
-}
+
 interface Room {
   _id: string;
   name: string;
+}
+interface Brand {
+  _id: string;
+  name: string;
+}
+interface Item {
+  _id: string;
+  name: string;
+  brand: Brand;
+  barcode: string;
+  status: string;
+  room: Room;
 }
 @Component({
   selector: 'app-items',
@@ -59,6 +65,7 @@ export class ItemsComponent implements OnInit {
   paginationService = inject(PaginationService);
   items: Item[] = [];
   rooms: Room[] = [];
+  brands: Brand[] = [];
   filteredItems: any[] = [];
 
   modalFields: Array<{
@@ -106,7 +113,7 @@ export class ItemsComponent implements OnInit {
       options: [
         { label: 'Find', value: 'Find' },
         { label: 'Good', value: 'Good' },
-        { label: 'Damage', value: 'Damaged' },
+        { label: 'Damage', value: 'Damage' },
         { label: 'Missing', value: 'Missing' }
       ],
     },
@@ -137,20 +144,21 @@ export class ItemsComponent implements OnInit {
 
   setFieldOptions() {
     const rooms = this.rooms;
-    const brands = this.brandService.getItems();
-    const items = this.itemService.getItems();
+    const brands = this.brands;
+    // const brands = this.brandService.getItems();
+    // const items = this.itemService.getItems();
     this.modalFields.forEach(field => {
       if (field.name === 'room') {
         field.options = rooms.map(room => ({ label: room.name, value: room._id }));
       }
       if (field.name === 'brand') {
-        field.options = brands.map(brand => ({ label: brand.name, value: brand.name }));
+        field.options = brands.map(brand => ({ label: brand.name, value: brand._id }));
       }
       if (field.name === 'barcode') {
-        field.options = items.map(item => ({ label: item.barcode, value: item.barcode }));
+        // field.options = items.map(item => ({ label: item.barcode, value: item.barcode }));
       }
       if (field.name === 'item') {
-        field.options = items.map(item => ({ label: item.item, value: item.item }));
+        //  field.options = items.map(item => ({ label: item.item, value: item.item }));
       }
     });
   }
@@ -159,9 +167,10 @@ export class ItemsComponent implements OnInit {
     this.apiService
       .fetch(this.itemService, 'BROWSE', '')
       .subscribe(({ payload = {} }) => {
-        const { rooms, items } = payload;
+        const { rooms, items, brands } = payload;
         this.items = [...items];
         this.rooms = [...rooms];
+        this.brands = [...brands];
         this.updateFilteredItems();
         this.rooms.sort((a, b) => a.name.localeCompare(b.name));
         this.paginationService.setItems(items);
@@ -248,16 +257,14 @@ export class ItemsComponent implements OnInit {
     this.filteredItems = this.paginationService.getFilteredItems();
   }
 
-  isInclude = (item: Item, query: string, key: keyof Item) => {
-    return item[key]?.toLowerCase().includes(query.toLowerCase());
-  };
+
 
   onSearch(query: string) {
     this.filteredItems = this.items.filter(
       (item: Item) =>
-        this.isInclude(item, query, 'name') ||
-        this.isInclude(item, query, 'brand') ||
-        this.isInclude(item, query, 'barcode')
+      item.name.toLowerCase().includes(query.toLowerCase())||
+      item.brand.name.toLowerCase().includes(query.toLowerCase())||
+      item.barcode.toLowerCase().includes(query.toLowerCase())
     );
   }
 

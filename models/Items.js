@@ -9,12 +9,23 @@ const userSchema = new mongoose.Schema(
       type: String,
     },
     brand: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref:'Brands'
     },
     room: {
       type: mongoose.Schema.Types.ObjectId,
       ref:'Rooms'
-    },  
+    },
+    quantity: {
+      type: Number,
+    },
+    status: {
+      type: String,
+    },
+    condition: {
+      type: String,
+    },
+      
     deletedAt: {
       type: Date,
     },

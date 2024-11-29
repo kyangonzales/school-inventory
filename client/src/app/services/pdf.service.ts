@@ -17,9 +17,9 @@ export class PdfService {
     let reportTitle:string=''
 
     if (reportType === 'item') {
-      col = ["#", "Item", "Brand", "Room", "Barcode"];
+      col = ["#", "Barcode", "Name", "Brand", "Status", "Quantity", "Room"];
       filteredItems.forEach((item, index) => {
-        const temp = [index + 1, item.name, item.brand, item.room.name, item.barcode];
+        const temp = [index + 1, item.barcode, item.name, item.brand.name, item.status, item.quantity, item.room.name];
         rows.push(temp);
       });
       reportTitle = 'Item List';
@@ -77,7 +77,21 @@ export class PdfService {
         reportTitle = 'Brand List';
 
     }
-  
+    else if (reportType === 'roomInventory') {
+      col = ["#", "Name", "Good", "Missing", "Damage", "Total"];
+      filteredItems.forEach((stock, index) => {
+        const temp = [
+          index + 1,          
+          stock.name,  
+          stock.good,
+          stock.missing,        
+          stock.damage,        
+          stock.total,         
+        ];
+        rows.push(temp);
+        reportTitle = 'Stock List';
+      });
+    }
     try {
       const base64Img = await this.imageService.getBase64ImageFromURL('assets/papaya.jpg');
       doc.addImage(base64Img, 'JPEG', 12, 5, 30, 30);
@@ -91,7 +105,7 @@ export class PdfService {
   
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(14);
-      doc.text(reportTitle, 90, 45); // Title added just before the table
+      doc.text(reportTitle, 90, 45);
   
       autoTable(doc, {
         startY: 50,

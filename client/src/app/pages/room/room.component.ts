@@ -23,6 +23,21 @@ interface Room {
   styleUrl: './room.component.css'
 })
 export class RoomComponent {
+
+  // modal don sa view
+  viewRoom = false
+  toggleModal() {
+    this.viewRoom = !this.viewRoom;
+  }
+
+  exportData() {
+    // this.pdfService.exportPdf(this.filteredItems, 'roomInventory'); 
+    // palitan mo ng kung ano yung filtered na room item yung mga name tapos good, damage, missing, pasahan mo ng parameter na roomInventory 
+  }
+
+
+
+
   private apiService = inject(apiService)
   roomService = inject(RoomService);
   paginationService = inject(PaginationService);
@@ -104,7 +119,7 @@ export class RoomComponent {
     });
   };
   
-  currentRoom: any = null;
+    currentRoom: any = null;
     isModalOpen = false; 
 
     openModal(brand: any) {

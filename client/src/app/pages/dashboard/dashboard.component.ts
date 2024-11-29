@@ -8,15 +8,17 @@ import { ChartModule } from 'primeng/chart';
   standalone: true,
   imports: [ChartModule, CommonModule, LucideAngularModule],
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent {
+  value: string | undefined;
+
   inventoryData: any;
   combinedConditionData: any;
   brandData: any;
   options: any;
   barOptions: any;
-  
+
   ngOnInit() {
     // Inventory items data (Grouped Bar Chart)
     this.inventoryData = {
@@ -25,19 +27,19 @@ export class DashboardComponent {
         {
           label: 'Good',
           data: [8, 45, 28, 95, 19],
-          backgroundColor: '#10b981'
+          backgroundColor: '#10b981',
         },
         {
           label: 'Damaged',
           data: [2, 5, 1, 3, 0],
-          backgroundColor: '#f87171'
+          backgroundColor: '#f87171',
         },
         {
           label: 'Missing',
           data: [0, 0, 1, 2, 5],
-          backgroundColor: '#fbbf24'
-        }
-      ]
+          backgroundColor: '#fbbf24',
+        },
+      ],
     };
 
     // Combined Condition data for Damaged, Good, Missing items (Pie Chart)
@@ -46,9 +48,9 @@ export class DashboardComponent {
       datasets: [
         {
           data: [11, 195, 8],
-          backgroundColor: ['#f87171', '#10b981', '#fbbf24']
-        }
-      ]
+          backgroundColor: ['#f87171', '#10b981', '#fbbf24'],
+        },
+      ],
     };
 
     this.brandData = {
@@ -56,9 +58,9 @@ export class DashboardComponent {
       datasets: [
         {
           data: [20, 30, 25, 25],
-          backgroundColor: ['#3b82f6', '#f59e0b', '#10b981', '#9333ea']
-        }
-      ]
+          backgroundColor: ['#3b82f6', '#f59e0b', '#10b981', '#9333ea'],
+        },
+      ],
     };
 
     this.options = {
@@ -66,28 +68,28 @@ export class DashboardComponent {
         legend: {
           labels: {
             usePointStyle: true,
-            color: '#333'
-          }
-        }
-      }
+            color: '#333',
+          },
+        },
+      },
     };
 
     this.barOptions = {
       scales: {
         x: {
-          stacked: false,  // Disable stacked bars to show separate columns
-          beginAtZero: true
+          stacked: false, // Disable stacked bars to show separate columns
+          beginAtZero: true,
         },
         y: {
-          beginAtZero: true
-        }
+          beginAtZero: true,
+        },
       },
       responsive: true,
       plugins: {
         legend: {
           position: 'top',
-        }
-      }
+        },
+      },
     };
   }
 }

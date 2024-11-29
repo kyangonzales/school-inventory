@@ -9,6 +9,7 @@ import { RoomComponent } from './pages/room/room.component';
 import { AuthGuard } from './auth.guard';
 import { NotFoundComponent } from './pages/not-found/not-found.component'
 import { ReportComponent } from './pages/report/report.component';
+
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   {
@@ -48,6 +49,24 @@ export const routes: Routes = [
   },
   {
     path: 'report',
+    component: ReportComponent,
+    canActivate: [AuthGuard]
+  }
+  ,
+  {
+    path: 'good',
+    component: ReportComponent,
+    canActivate: [AuthGuard]
+  }
+  ,
+  {
+    path: 'damage',
+    component: ReportComponent,
+    canActivate: [AuthGuard]
+  }
+  ,
+  {
+    path: 'missing',
     component: ReportComponent,
     canActivate: [AuthGuard]
   },

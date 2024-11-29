@@ -23,11 +23,11 @@
 			  <ul *ngIf="isSubmenuOpen && item.submenu" class="pl-8 mt-2">
                 <li *ngFor="let subItem of item.submenu" class="mb-2">
                     <a
-                        routerLink="{{ subItem.path}}"
+                        routerLink="{{subItem.path}}"
                         routerLinkActive="active"
                         class="flex items-center text-md px-2 rounded hover:bg-blue-800 text-white"
                     >
-					<lucide-icon [name]="subItem.icon" class="mr-2 w-5 h-5"></lucide-icon>
+					<!-- <lucide-icon [name]="subItem.icon" class="mr-2 w-5 h-5"></lucide-icon> -->
                     <span>{{ subItem.label }}</span>
                     </a>
                 </li>

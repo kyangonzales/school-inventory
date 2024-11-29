@@ -1,3 +1,4 @@
+import { apiService } from './../../services/api.service';
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HeaderComponent } from '../../component/header/header.component';
@@ -17,8 +18,9 @@ import { PdfService } from '../../services/pdf.service';
 export class StocksComponent {
   pageTitle = 'Stock List';
   private stocksService = inject(StocksService);
+  private apiService = inject(apiService)
   paginationService = inject(PaginationService);
-  stocks = this.stocksService.getStocks(); // galing db to
+  stocks:any[]=[]; 
   filteredStocks: any[] = [];
 
   modalFields: any[] = [];
@@ -31,6 +33,21 @@ export class StocksComponent {
 
   currentStock: any = null;
   isModalOpen = false; 
+  
+  ngOnInit(): void {
+    this.BROWSE();
+  }
+
+  BROWSE = () => {
+    this.apiService
+      .fetch(this.stocksService, 'BROWSE', '')
+      .subscribe(({ payload = [] }) => {
+        this.stocks = [...payload];
+        this.paginationService.setItems(payload);
+        this.updateFilteredStocks();
+      });
+  };
+
 
   onStocksPerPageChange(stocksPerPage: number) {
     this.paginationService.changeItemsPerPage(stocksPerPage);
