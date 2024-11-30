@@ -8,9 +8,7 @@ exports.browse = async (_, res) => {
 	const items = await Items.find().populate('room').populate('brand').lean();
     const arrangeItems = filter(items).reduce((acc, curr) =>{
 		const {name, brand, status, condition='', quantity,barcode=""}=curr
-		// const key=`${name.toLowerCase()}-${brand._id}`
-		// const statusKey = `${status}${condition}`
-		// const index = acc.findIndex(({key:_key})=>key===_key)
+
 		
 		const key = `${name.toLowerCase()}-${brand._id}-${barcode}`;
 		const statusKey = `${status}${condition}`;

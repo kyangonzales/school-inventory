@@ -13,14 +13,22 @@ exports.save = async (req, res) => {
 exports.browse = async (req, res) => {
   try {
     const items= await arrangeItems()
-    console.log(items)
+    console.log("items:",items)
     
-    const rooms = await Rooms.find().lean().sort({ createdAt: -1 });
-    // const roomsArranger = rooms.map((room)=>{
-    //  return {...room,}
-    // })
+    const rooms = await Rooms.find({ deletedAt: { $exists: false } })
+    .lean()
+      .sort({ createdAt: -1 });
+
+    const roomsWithItems = [...rooms]
+    .map((room) => {
+      const _items = items.filter(({room:r}) =>r._id === room._id );
+      return { ...room, items: _items };
+    });
+  
+
+    
     res.json({
-      payload: rooms.filter(({ deletedAt = "" }) => !deletedAt),
+      payload: roomsWithItems,
       message: "Successfully fetch rooms",
     });
   } catch (error) {
