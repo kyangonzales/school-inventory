@@ -14,6 +14,7 @@ import { LucideAngularModule } from 'lucide-angular';
 interface Room {
   _id: string;
   name: string;
+  items:any[],
 }
 @Component({
   selector: 'app-room',
@@ -26,9 +27,14 @@ export class RoomComponent {
 
   // modal don sa view
   viewRoom = false
+  items:any
   toggleModal() {
     this.viewRoom = !this.viewRoom;
   }
+ handleViewItems(items:any){
+  this.items=items
+  this.toggleModal()
+ }
 
   exportData() {
     // this.pdfService.exportPdf(this.filteredItems, 'roomInventory'); 

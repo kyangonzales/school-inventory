@@ -1,5 +1,5 @@
 const Rooms = require("../models/Rooms");
-const Items = require ("../models/Items")
+const mongoose = require('mongoose');
 const arrangeItems=require("../widgets/arrangeItems")
 exports.save = async (req, res) => {
   try {
@@ -12,18 +12,28 @@ exports.save = async (req, res) => {
 
 exports.browse = async (req, res) => {
   try {
-    const items= await arrangeItems()
-    console.log("items:",items)
-    
+    const items= await arrangeItems()    
     const rooms = await Rooms.find({ deletedAt: { $exists: false } })
     .lean()
-      .sort({ createdAt: -1 });
 
     const roomsWithItems = [...rooms]
+
     .map((room) => {
-      const _items = items.filter(({room:r}) =>r._id === room._id );
+      const _items = items.filter((item) => { 
+        return item?.room?._id.equals(mongoose.Types.ObjectId(room?._id));
+      });
+
       return { ...room, items: _items };
     });
+
+    // const sortedRooms = roomsWithItems.sort((a, b) => {
+    //   const lengthA = a?.items?.length ?? 0; 
+    //   const lengthB = b?.items?.length ?? 0; 
+
+    //   console.log(lengthA,lengthB)
+    //   return lengthB - lengthA; // Sort in descending order
+    // });
+
   
 
     

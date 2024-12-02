@@ -29,6 +29,7 @@ exports.save = async (req, res) => {
 };
 
 const filter = (collections) =>  collections.filter((item) => !item.deletedAt)
+
 exports.browse = async (_, res) => {
   try {
     const items = await Items.find().populate('room').populate('brand').sort({ createdAt: -1 });

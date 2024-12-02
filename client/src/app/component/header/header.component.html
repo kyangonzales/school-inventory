@@ -7,7 +7,7 @@
 		  <i class="fa fa-search"></i>
 		</button>
 		
-		<ng-container *ngIf="title !== 'Stock List'">
+		<ng-container *ngIf="title !== 'Stock List' && title !== 'Damage'  && title !== 'Good'  && title !== 'Missing'">
 		  <button class="icon-btn" (click)="isModalOpen = true">
 			<i class="fa fa-plus"></i>
 		  </button>
@@ -18,8 +18,6 @@
 	  </div>
 	</div>
   </div>
-
-
 
 
   <div *ngIf="isModalOpen" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50 backdrop-blur-sm">

@@ -50,25 +50,29 @@ export const routes: Routes = [
   {
     path: 'report',
     component: ReportComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    data: { reportType: 'Good' }
   }
   ,
   {
     path: 'good',
     component: ReportComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    data: { reportType: 'Good' }
   }
   ,
   {
     path: 'damage',
     component: ReportComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    data: { reportType: 'Damage' }
   }
   ,
   {
     path: 'missing',
     component: ReportComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    data: { reportType: 'Missing' }
   },
   { path: '**', component: NotFoundComponent}
 ];

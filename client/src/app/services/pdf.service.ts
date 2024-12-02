@@ -93,28 +93,27 @@ export class PdfService {
       });
     }
     try {
-      const base64Img = await this.imageService.getBase64ImageFromURL('assets/papaya.jpg');
-      doc.addImage(base64Img, 'JPEG', 12, 5, 30, 30);
-  
+      const headerImg = await this.imageService.getBase64ImageFromURL('assets/header.jpg');
+      const pageWidth = doc.internal.pageSize.getWidth(); // Full width of the PDF page
+      const headerHeight = 40; // Adjust the height as needed
+      doc.addImage(headerImg, 'JPEG', 0, 0, pageWidth, headerHeight);
+
       doc.setFontSize(12);
-      doc.setFont('helvetica', 'bold');
-      doc.text('Nueva Ecija University of Science and Technology', 50, 15);
-      doc.text('Papaya Off-campus', 50, 22);
       doc.setFont('helvetica', 'normal');
-      doc.text(`Generated on: ${new Date().toLocaleDateString()}`, 50, 29);
-  
+      doc.text(`Generated on: ${new Date().toLocaleDateString()}`, 10, 45);
+
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(14);
-      doc.text(reportTitle, 90, 45);
-  
+      doc.text(reportTitle, pageWidth / 2, 50, { align: 'center' });
+
       autoTable(doc, {
-        startY: 50,
+        startY: 55,
         head: [col],
         body: rows,
       });
-  
+
       doc.save(`${reportType}-report.pdf`);
-  
+
       Swal.fire({
         title: 'PDF Generated',
         text: `The ${reportType} report has been successfully generated and saved.`,
