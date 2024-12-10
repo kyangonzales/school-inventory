@@ -2,11 +2,12 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { LucideAngularModule } from 'lucide-angular';
 import { ChartModule } from 'primeng/chart';
+import { RoomComponent } from '../room/room.component';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [ChartModule, CommonModule, LucideAngularModule],
+  imports: [ChartModule, CommonModule, LucideAngularModule, RoomComponent],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
 })

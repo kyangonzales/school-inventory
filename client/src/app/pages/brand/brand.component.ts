@@ -54,9 +54,12 @@ export class BrandComponent {
       .fetch(this.brandService, 'BROWSE', '')
       .subscribe(({ payload = [] }) => {
         this.brands = [...payload];
+      
         this.paginationService.setItems(payload);
         this.updateFilteredItems();
+        console.log("payload", payload)
       });
+      
   };
   handleSubmit = (brand: Brand) => {
     const index = this.brands.findIndex(({ _id }) => _id === brand._id);

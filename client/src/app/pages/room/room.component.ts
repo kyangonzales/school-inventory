@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
 import Swal from 'sweetalert2';
 import { PdfService } from '../../services/pdf.service';
 import { LucideAngularModule } from 'lucide-angular';
-
+import { Input } from '@angular/core';
 interface Room {
   _id: string;
   name: string;
@@ -24,7 +24,7 @@ interface Room {
   styleUrl: './room.component.css'
 })
 export class RoomComponent {
-
+  @Input() showControls: boolean = true; 
   // modal don sa view
   viewRoom = false
   items:any
@@ -32,12 +32,23 @@ export class RoomComponent {
     this.viewRoom = !this.viewRoom;
   }
  handleViewItems(items:any){
+  console.log("items", items)
+  if(items.length == 0 ){
+    Swal.fire({
+      icon: 'warning',
+      title: 'No Items Found',
+      text: `There are currently no items available.`,
+      confirmButtonText: 'Okay'
+    });
+    return
+  }
   this.items=items
   this.toggleModal()
  }
 
   exportData() {
-    // this.pdfService.exportPdf(this.filteredItems, 'roomInventory'); 
+    this.pdfService.exportPdf(this.items, 'roomInventory'); 
+    console.log(this.items)
     // palitan mo ng kung ano yung filtered na room item yung mga name tapos good, damage, missing, pasahan mo ng parameter na roomInventory 
   }
 
@@ -71,6 +82,7 @@ export class RoomComponent {
         this.rooms = [...payload];
         this.paginationService.setItems(payload);
         this.updateFilteredItems();
+        console.log(this.rooms)
       });
   };
 

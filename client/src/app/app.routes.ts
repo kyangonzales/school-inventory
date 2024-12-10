@@ -51,7 +51,7 @@ export const routes: Routes = [
     path: 'report',
     component: ReportComponent,
     canActivate: [AuthGuard],
-    data: { reportType: 'Good' }
+    data: { reportType: 'All' }
   }
   ,
   {

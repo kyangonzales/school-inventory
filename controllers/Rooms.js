@@ -25,20 +25,20 @@ exports.browse = async (req, res) => {
 
       return { ...room, items: _items };
     });
-
-    // const sortedRooms = roomsWithItems.sort((a, b) => {
-    //   const lengthA = a?.items?.length ?? 0; 
-    //   const lengthB = b?.items?.length ?? 0; 
-
-    //   console.log(lengthA,lengthB)
-    //   return lengthB - lengthA; // Sort in descending order
-    // });
-
+    
+    const sortedRooms = [...roomsWithItems].sort((a, b) => {
+      const lengthA = a?.items?.length || 0;
+      const lengthB = b?.items?.length || 0;
+      // console.log(`Comparing: A (${a._id}) [${lengthA}] vs B (${b._id}) [${lengthB}]`);
+      return lengthB - lengthA;
+    });
+    
+    
   
 
     
     res.json({
-      payload: roomsWithItems,
+      payload: sortedRooms,
       message: "Successfully fetch rooms",
     });
   } catch (error) {

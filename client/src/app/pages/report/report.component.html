@@ -15,6 +15,7 @@
 			<th class="px-4 py-2 text-left">Article</th>
 			<th class="px-4 py-2 text-left">Status</th>
 			<th class="px-4 py-2 text-left">Quantity</th>
+			<th class="px-4 py-2 text-left">Date</th>
 			<th class="px-4 py-2 text-left">Room</th>
 		  </tr>
 		</thead>
@@ -32,8 +33,8 @@
 			  <small class="block">{{ item.condition || '' }}</small>
 			</td>
 			<td class="px-8 py-2">{{ item.quantity }}</td>
+			<th class="px-4 py-2 text-left">{{ item.createdAt | date: 'MMM dd, yyyy hh:mm:a' }}</th>
 			<td class="px-4 py-2">{{ item.room.name }}</td>
-  
 		  </tr>
 		  }
 		  <tr
@@ -44,6 +45,15 @@
 		  </tr>
 		</tbody>
 	  </table>
+	  
+	  <pagination 
+	  [totalItems]="paginationService.totalItems" 
+	  [(itemsPerPage)]="paginationService.itemsPerPage" 
+	  [currentPage]="paginationService.currentPage"
+	  (itemsPerPageChange)="onItemsPerPageChange($event)"
+	  (pageChange)="onPageChange($event)">
+	  </pagination>
+
 	</div>
   </div>
   

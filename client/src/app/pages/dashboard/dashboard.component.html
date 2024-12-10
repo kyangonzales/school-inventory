@@ -6,18 +6,24 @@
       <p-chart type="pie" [data]="combinedConditionData" [options]="options" ></p-chart>
       <p class="text-center text-gray-700 mt-1">Condition of Items (Damaged, Good, Missing)</p>
     </div>
-
-    <div class="p-4 h-[22rem] w-[22rem]">
-      <p-chart type="doughnut" [data]="brandData" [options]="options" class="h-32 w-32"></p-chart>
-      <p class="text-center text-gray-700 mt-1">Brand Distribution</p>
-    </div>
-  </div>
-
-  <div class="grid grid-cols-1">
-    <div class="p-4 w-98">
+    <div class="p-4">
       <p-chart type="bar" [data]="inventoryData" [options]="barOptions"></p-chart>
       <p class="text-center text-gray-700 mt-2">Inventory Items</p>
     </div>
+    <!-- <div class="p-4 h-[22rem] w-[22rem]">
+      <p-chart type="doughnut" [data]="brandData" [options]="options" class="h-32 w-32"></p-chart>
+      <p class="text-center text-gray-700 mt-1">Brand Distribution</p>
+    </div> -->
+   
+  </div>
+
+  <div class="grid grid-cols-1 mt-10">
+    <app-room [showControls]="false"></app-room>
+
+    <!-- <div class="p-4 w-98">
+      <p-chart type="bar" [data]="inventoryData" [options]="barOptions"></p-chart>
+      <p class="text-center text-gray-700 mt-2">Inventory Items</p>
+    </div> -->
   </div>
   
 
