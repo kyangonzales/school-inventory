@@ -38,6 +38,7 @@ export class HeaderComponent implements OnInit {
   @Output() exportPDFEvent = new EventEmitter<void>();
 
   isModalOpen = false;
+
   formGroup: FormGroup;
   filteredOptions: { [key: string]: any[] } = {};
   currentField: any = null;
@@ -47,32 +48,64 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {
+    
     const formControls: { [key: string]: any } = {};
     this.fields.forEach(field => {
-      formControls[field.name] = ['', Validators.required];
+      const {isRequired=true} = field
+
+      formControls[field.name] = ['', isRequired ? Validators.required : null];
       formControls[field.name + '_value'] = ['']; 
       this.filteredOptions[field.name] = [];
- 
     });
+    formControls['isBarcodeChange'] = [false];
+
     this.formGroup = this.formBuilder.group(formControls);
 
     document.addEventListener('click', this.onClickOutside.bind(this));
     this.onBarcodeChange();
     this.handleChange('brand', 'brand_value');
     this.handleChange('room', 'room_value');
+    this.handleChange('name', '');
+    this.detectFormGroupChanges();
   }
 
-   
+  convertChar=(char:string)=>{
+    return char?.toLowerCase()?.replace(/\s+/g, '');
+  }
 
 
+  detectFormGroupChanges() {
+    this.formGroup.valueChanges.subscribe((newValues) => {
+      const { name, brand, room, barcode, isBarcodeChange=false } = newValues;
+      console.log("eto na ",this.formGroup.value)
+      if (name && brand && room && !isBarcodeChange) {
+        console.log("tite")
+        const barcode = this.items.find((item) => {
+          return (
+            this.convertChar(item.name) === this.convertChar(name) &&
+            this.convertChar(item.brand.name) === this.convertChar(brand) &&
+            this.convertChar(item.room.name) === this.convertChar(room)
+          );
+     
+        })?.barcode || '';
+        const currentBarcode = this.formGroup.get('barcode')?.value
+        const isExist=this.items.some((item)=>item.barcode==currentBarcode)
+        const newBarcode=barcode?barcode:isExist?'':currentBarcode
+          this.formGroup.patchValue(
+            { barcode:newBarcode, isBarcodeChange:false},
+            
+            { emitEvent: false } 
+          )
+      }
+    });
+  }
   onBarcodeChange() {
     this.formGroup.get('barcode')?.valueChanges.subscribe((value: any) => {
-      const itemFound = this.items.find(({ barcode }) => barcode === value);
-  
+      const itemFound = this.items.find(({ barcode='' }) => barcode === value && barcode);
+      const formGroup = { ...this.formGroup.value };
       if (itemFound) {
         const { brand, room, name, status, barcode } = itemFound;
-        const formGroup = { ...this.formGroup.value };
-  
+        
         formGroup.brand = brand?.name;
         formGroup.brand_value = brand._id;
         formGroup.room = room.name;
@@ -83,20 +116,30 @@ export class HeaderComponent implements OnInit {
         formGroup.quantity_value = 1;
         formGroup.barcode = barcode;
         this.formGroup.patchValue(formGroup, { emitEvent: false });
+
       }
+      else{
+        this.formGroup.patchValue({brand:'', brand_value:'', room: '', room_value: ''}, { emitEvent: false });
+      }
+      this.formGroup.patchValue({isBarcodeChange:true}, { emitEvent: false });
+
     });
+    
   }
+
+
   handleChange(fieldName: string, valueKey: string) {
     this.formGroup.get(fieldName)?.valueChanges.subscribe((value: any) => {
       const fields = this.fields.find((field) => field.name === fieldName)?.options;
-      const field = fields?.find(({ label }) => label.toLowerCase() === value.toLowerCase());
-      console.log(`before updating ${valueKey}:`, this.formGroup.value);
+      const field = fields?.find(({ label }) => label?.toLowerCase() === value?.toLowerCase());
+
       if (!field && this.formGroup.get(fieldName)?.value !== "") {
         this.formGroup.patchValue({ [valueKey]: "" }, { emitEvent: false });
       } else if (field) {
         this.formGroup.patchValue({ [valueKey]: field.value }, { emitEvent: false });
       }
-      console.log(`after updating ${valueKey}:`, this.formGroup.value);
+      this.formGroup.patchValue({isBarcodeChange:false}, { emitEvent: false });
+      console.log("handle change detected")
     });
   }
   
@@ -129,8 +172,8 @@ export class HeaderComponent implements OnInit {
   }
 
   filterOptions(field: any) {
-    const query = this.formGroup.get(field.name)?.value.toLowerCase() || '';
-    this.filteredOptions[field.name] = field.options.filter((option: any) => option.label.toLowerCase().includes(query));
+    const query = this.formGroup.get(field.name)?.value?.toLowerCase() || '';
+    this.filteredOptions[field.name] = field.options.filter((option: any) => option.label?.toLowerCase()?.includes(query));
   }
   
   hideOptions() {
@@ -203,6 +246,10 @@ export class HeaderComponent implements OnInit {
       this.formGroup.reset();
       this.isModalOpen = false;
     }
+  }
+  toggleModal(){
+    this.formGroup.reset();
+    this.isModalOpen=true
   }
 
   exportPDF() { 

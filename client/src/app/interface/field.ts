@@ -6,6 +6,8 @@ export interface Field {
 	placeholder: string;
 	options?: Array<{ label: string; value: string }>;
 	fullWidth?: boolean;
+	isRequired?:boolean;
+
   }
   
 

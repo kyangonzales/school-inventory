@@ -74,6 +74,7 @@ export class ItemsComponent implements OnInit {
     type: string;
     placeholder: string;
     isStatus?: boolean;
+    isRequired?: boolean;
     options: Array<{ label: string; value: string }>;
   }> = [
     {
@@ -82,12 +83,13 @@ export class ItemsComponent implements OnInit {
       type: 'text',
       placeholder: 'Enter barcode',
       options: [],
+      isRequired:false
     },
     {
       name: 'name',
-      label: 'Item Name',
+      label: 'Name',
       type: 'text',
-      placeholder: 'Enter item name',
+      placeholder: 'Enter name',
       options: [],
     },
     {
@@ -131,7 +133,6 @@ export class ItemsComponent implements OnInit {
       item: ['', Validators.required],
       brand: ['', Validators.required],
       room: ['', Validators.required],
-      barcode: ['', Validators.required],
       status: ['', Validators.required],
       additionalStatus: [''], 
       quantity: ['', Validators.required],
