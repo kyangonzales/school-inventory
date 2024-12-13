@@ -60,12 +60,15 @@
 </div>
 
 
-  
+<!-- -->
 <div class="relative mb-4 mt-10">
 	<header
     [title]="pageTitle"
     [modalTitle]="'Add Item'"
     [fields]="modalFields"
+	[showAddIcon] = "showAdd"
+	[isDuplicateChecker]=true
+	[rooms]="rooms"
     (onSubmitCallback)="handleSubmit($event)"
     (exportPDFEvent) = "exportRoomPdf()"
     (search)="onSearch($event)"
@@ -75,18 +78,24 @@
 				<thead>
 					<tr class="text-gray-700">
 						<th class="px-4 py-2 text-center">#</th>
-						<th class="px-4 py-2 text-center">Name</th>
+						<th class="px-4 py-2 text-left">Name</th>
+						<th class="px-4 py-2 text-center">Good</th>
+						<th class="px-4 py-2 text-center">Missing</th>
+						<th class="px-4 py-2 text-center">Damaged</th>
 						<th class="px-4 py-2 text-center">No of item</th>
 						<th class="px-4 py-2 text-center">Action</th>
 					</tr>
 				</thead>
 				<tbody>
 					@for(room of filteredItems; track room._id; let index = $index){
-						<tr class="border-t hover:bg-gray-100 text-center odd:bg-white odd:dark:bg-gray-100">
-							<td class="px-4 py-2">{{index+1}}</td>
+						<tr class="border-t hover:bg-gray-100 odd:bg-white odd:dark:bg-gray-100">
+							<td class="px-4 py-2 text-center">{{index+1}}</td>
 							<td class="px-4 py-2">{{room.name}}</td>
-							<td class="px-4 py-2">{{room.items.length}}</td>
-							<td class="px-4 py-2">
+							<td class="px-4 py-2 text-center">{{room.Good}}</td>
+							<td class="px-4 py-2 text-center">{{room.Missing}}</td>
+							<td class="px-4 py-2 text-center">{{room.Damage}}</td>
+							<td class="px-4 py-2 text-center">{{room.items.length}}</td>
+							<td class="px-4 py-2 text-center">
 								<button (click)="handleViewItems(room.items)"  class="bg-emerald-500 hover:bg-emerald-600 text-white p-2 mr-2 rounded-md">
 									<lucide-icon name="Eye" class="w-5 h-5"></lucide-icon>
 								</button>

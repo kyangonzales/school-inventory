@@ -11,8 +11,8 @@
 		@for(item of sidebarItems; track item.id){
 		<li class="mb-4 sideList">
 			<a 
-				routerLink="{{ item.path}}"
-				routerLinkActive="active"
+				routerLink="{{item.path.value}}"
+				[routerLinkActive]="item.path.name === 'all' ? '' : 'active'"
 				class="flex items-center text-lg p-2 rounded hover:bg-blue-800 text-white" 
 				(click)="item.submenu ? toggleSubmenu() : null" 
 			>
@@ -23,11 +23,10 @@
 			  <ul *ngIf="isSubmenuOpen && item.submenu" class="pl-8 mt-2">
                 <li *ngFor="let subItem of item.submenu" class="mb-2">
                     <a
-                        routerLink="{{subItem.path}}"
-                        routerLinkActive="active"
+						[routerLink]="subItem.path.value"
+						[routerLinkActive]="subItem.path.name === 'all' ? '' : 'active'"
                         class="flex items-center text-md px-2 rounded hover:bg-blue-800 text-white"
                     >
-					<!-- <lucide-icon [name]="subItem.icon" class="mr-2 w-5 h-5"></lucide-icon> -->
                     <span>{{ subItem.label }}</span>
                     </a>
                 </li>

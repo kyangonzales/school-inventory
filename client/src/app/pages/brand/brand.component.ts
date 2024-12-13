@@ -55,9 +55,9 @@ export class BrandComponent {
       .subscribe(({ payload = [] }) => {
         this.brands = [...payload];
       
+        console.log("payload", payload)
         this.paginationService.setItems(payload);
         this.updateFilteredItems();
-        console.log("payload", payload)
       });
       
   };

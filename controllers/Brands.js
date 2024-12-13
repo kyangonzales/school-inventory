@@ -1,4 +1,6 @@
 const Brands = require("../models/Brands");
+const mongoose = require('mongoose');
+const arrangeItems=require("../widgets/arrangeItems")
 
 exports.save = async (req, res) => {
   try {
@@ -11,15 +13,43 @@ exports.save = async (req, res) => {
 
 exports.browse = async (req, res) => {
   try {
-    const brands = await Brands.find().sort({ createdAt: -1 });
+    const items= await arrangeItems()    
+    const brands = await Brands.find({ deletedAt: { $exists: false } })
+    .lean()
+
+    const brandsWithItems = [...brands]
+
+    .map((brand) => {
+      const _items = items.filter((item) => { 
+        return item?.brand?._id.equals(mongoose.Types.ObjectId(brand?._id));
+      });
+
+      return { ...brand, items: _items };
+    });
+    
+    const sortedBrands = [...brandsWithItems].sort((a, b) => {
+      const lengthA = a?.items?.length || 0;
+      const lengthB = b?.items?.length || 0;
+      return lengthB - lengthA;
+    });
+    
+    
+  
+
+    
     res.json({
-      payload: brands.filter(({ deletedAt = "" }) => !deletedAt),
-      message: "Successfully fetch brands",
+      payload: sortedBrands,
+      message: "Successfully fetch brand",
     });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
+
+
+
+
+
 
 exports.update = async (req, res) => {
   try {

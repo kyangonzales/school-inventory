@@ -73,6 +73,6 @@ export class StocksComponent {
     ); 
   }
   exportStock() {
-    this.pdfService.exportPdf(this.filteredStocks, 'stocks'); 
+    this.pdfService.exportPdf(this.filteredStocks, 'stocks',false); 
   }
 }

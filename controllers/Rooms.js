@@ -4,39 +4,47 @@ const arrangeItems=require("../widgets/arrangeItems")
 exports.save = async (req, res) => {
   try {
     const room = await Rooms.create(req.body);
-    res.json({ payload: room, message: "Successfully room brand" });
+    res.json({
+      payload: { ...room._doc, Good: 0, Missing: 0, Damage: 0, items: [] },
+      message: "Successfully room brand",
+    });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
-
 exports.browse = async (req, res) => {
   try {
-    const items= await arrangeItems()    
-    const rooms = await Rooms.find({ deletedAt: { $exists: false } })
-    .lean()
+    const items = await arrangeItems();
+    const rooms = await Rooms.find({ deletedAt: { $exists: false } }).lean();
 
-    const roomsWithItems = [...rooms]
-
-    .map((room) => {
-      const _items = items.filter((item) => { 
+    const roomsWithItems = [...rooms].map((room) => {
+      const _items = items.filter((item) => {
         return item?.room?._id.equals(mongoose.Types.ObjectId(room?._id));
       });
 
-      return { ...room, items: _items };
+      const itemCondition = _items.reduce(
+        (acc, curr) => {
+          const { Good = 0, Damage = 0, Missing = 0 } = curr;
+
+          acc["Good"] = acc["Good"] + Good;
+          acc["Missing"] = acc["Missing"] + Missing;
+          acc["Damage"] = acc["Damage"] + Damage;
+          acc["total"] = acc["total"] + Good + Missing + Damage;
+
+          return acc;
+        },
+        { Good: 0, Missing: 0, Damage: 0, total: 0 }
+      );
+
+      return { ...room, items: _items, ...itemCondition };
     });
-    
+
     const sortedRooms = [...roomsWithItems].sort((a, b) => {
-      const lengthA = a?.items?.length || 0;
-      const lengthB = b?.items?.length || 0;
-      // console.log(`Comparing: A (${a._id}) [${lengthA}] vs B (${b._id}) [${lengthB}]`);
+      const lengthA = a?.items?.total || 0;
+      const lengthB = b?.items?.total || 0;
       return lengthB - lengthA;
     });
-    
-    
-  
 
-    
     res.json({
       payload: sortedRooms,
       message: "Successfully fetch rooms",

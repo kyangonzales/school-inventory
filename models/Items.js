@@ -25,6 +25,10 @@ const userSchema = new mongoose.Schema(
     condition: {
       type: String,
     },
+    registrar: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref:'Users'
+    },
       
     deletedAt: {
       type: Date,

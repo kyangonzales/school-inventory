@@ -23,7 +23,40 @@ export class ReportComponent implements OnInit {
   paginationService = inject(PaginationService)
   type: string | null = null;
   items: any[] = [];
+  collections: any[] = [];
   pageTitle = '';
+  startDate:any;
+  endDate:any;
+  filterItemsByDate(startDate: string, endDate: string): any[] {
+    const start = new Date(startDate);
+    start.setHours(0, 0, 0, 0); 
+  
+    const end = new Date(endDate);
+    end.setHours(23, 59, 59, 999);  
+  
+    return this.collections.filter(item => {
+      const createdAt = new Date(item.createdAt);
+      createdAt.setHours(0, 0, 0, 0); 
+      return createdAt >= start && createdAt <= end;
+    });
+  }
+  
+  handleStart(date:string){
+    const _endDate = this.endDate
+    if(_endDate){
+      const filteredItems = this.filterItemsByDate(date,_endDate) 
+      this.items = filteredItems
+    }
+    this.startDate=date
+  }
+  handleEnd(date:string){
+    const _startDate = this.startDate
+    if(_startDate){
+      const filteredItems = this.filterItemsByDate(_startDate,date) 
+      this.items = filteredItems
+    }
+    this.endDate=date
+  }
 
   constructor(private route: ActivatedRoute) {}
 
@@ -37,6 +70,7 @@ export class ReportComponent implements OnInit {
   BROWSE = (type: string) => {
     this.apiService.fetch(this.ReportsService, 'BROWSE', type).subscribe(({ payload = [] }) => {
       this.items = payload;
+      this.collections = payload;
       console.log(payload);
       this.paginationService.setItems(this.items);
       this.updateFilteredItems();
@@ -44,7 +78,8 @@ export class ReportComponent implements OnInit {
   };
 
   exportItemsPdf() {
-    this.pdfService.exportPdf(this.items, 'item');
+    localStorage.setItem('date',JSON.stringify({startDate:this.startDate,endDate:this.endDate}))
+    this.pdfService.exportPdf(this.items, 'report', true);
   }
 
   onSearch(query: string) {
@@ -66,7 +101,7 @@ export class ReportComponent implements OnInit {
     
     updateFilteredItems() {
       this.items = this.paginationService.getFilteredItems();
-      console.log("kyan", this.items)
+
     }
 
 }

@@ -4,6 +4,8 @@
     [title]="pageTitle"
     [modalTitle]="'Add Item'"
     [fields]="modalFields"
+	[rooms]="brands"
+	[isDuplicateChecker]="true"
     (onSubmitCallback)="handleSubmit($event)"
     (exportPDFEvent) = "exportBrand()"
     (search)="onSearch($event)"

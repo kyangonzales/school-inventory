@@ -25,6 +25,8 @@ interface Room {
 })
 export class RoomComponent {
   @Input() showControls: boolean = true; 
+  @Input() showAdd: boolean = true; 
+
   // modal don sa view
   viewRoom = false
   items:any
@@ -72,6 +74,7 @@ export class RoomComponent {
     });
   }
   ngOnInit(): void {
+    console.log(this.showAdd)
     this.BROWSE();
   }
 
@@ -168,8 +171,7 @@ export class RoomComponent {
       ); 
     }
     exportRoomPdf() {
-      this.pdfService.exportPdf(this.filteredItems, 'room'); 
-      console.log(this.filteredItems)
+      this.pdfService.exportPdf(this.filteredItems, 'room',false); 
     }
  
 }

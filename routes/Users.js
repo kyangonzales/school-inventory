@@ -1,6 +1,5 @@
 const router = require("express").Router(),
-  { browse } = require("../controllers/Users");
+  { save } = require("../controllers/Users");
 
-router.get("/browse", browse);
-
+router.post("/save", save);
 module.exports = router;

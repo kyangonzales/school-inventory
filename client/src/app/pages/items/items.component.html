@@ -19,6 +19,7 @@
           <th class="px-4 py-2 text-left">Status</th>
           <th class="px-4 py-2 text-left">Quantity</th>
           <th class="px-4 py-2 text-left">Room</th>
+          <th class="px-4 py-2 text-left">Date</th>
         </tr>
       </thead>
       <tbody>
@@ -36,6 +37,7 @@
           </td>
           <td class="px-8 py-2">{{ item.quantity }}</td>
           <td class="px-4 py-2">{{ item.room.name }}</td>
+          <td class="px-4 py-2 text-left">{{ item.createdAt | date: 'MMM dd, yyyy hh:mm:a' }}</td>
 
           <!-- <td class="px-4 py-2">
             <button

@@ -183,9 +183,13 @@ export class ItemsComponent implements OnInit {
   handleSubmit = (item: Item) => {
     const index = this.items.findIndex(({ _id }) => _id === item._id);
     const isUpdate = index > -1;
-    console.log(item)
+    const fakeStorage = localStorage.getItem('auth')
+    var auth={_id:""}
+    if(fakeStorage){
+      auth=JSON.parse(fakeStorage)
+    }
     this.apiService
-      .fetch(this.itemService, isUpdate ? 'UPDATE' : 'SAVE', item)
+      .fetch(this.itemService, isUpdate ? 'UPDATE' : 'SAVE', {...item, registrar:auth._id})
       .subscribe(({ payload = {} }) => {
         console.log(payload);
         if (isUpdate) {
@@ -270,7 +274,7 @@ export class ItemsComponent implements OnInit {
   }
 
   exportItemsPdf() {
-    this.pdfService.exportPdf(this.filteredItems, 'item');
+    this.pdfService.exportPdf(this.filteredItems, 'item', true);
   }
 
   onStatusChange(event: any) {

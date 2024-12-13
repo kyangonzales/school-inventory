@@ -10,7 +10,7 @@ exports.browse = async (_, res) => {
 		const {name, brand, status, condition='', quantity,barcode=""}=curr
 
 		
-		const key = `${name.toLowerCase()}-${brand._id}-${barcode}`;
+		const key = `${name.toLowerCase().replace(/\s+/g, '')}-${brand._id}`;
 		const statusKey = `${status}${condition}`;
 		const index = acc.findIndex(({ key: _key }) => key === _key);
 

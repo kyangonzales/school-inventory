@@ -11,13 +11,13 @@ interface User {
 @Injectable({
   providedIn: 'root',
 })
-export class AuthService {
+export class UsersService {
 
 
   constructor(private http: HttpClient) {}
 
   SAVE(user: User): Observable<any> {
-    return this.http.post<any>(`${environment.ENDPOINT}/auth/login`, user).pipe(
+    return this.http.post<any>(`${environment.ENDPOINT}/users/save`, user).pipe(
       catchError((error) => {
         console.error('Error fetching users', error);
         return 'no fetched';
@@ -25,15 +25,5 @@ export class AuthService {
     );
   }
 
-  info(){
-    const fakeStorage=localStorage.getItem('auth')
-    if(fakeStorage){
-      return JSON.parse(fakeStorage)
-    }
-  }
 
-    isLoggedIn(): boolean {
-      return localStorage.getItem("auth")?true:false
-    }
- 
 }

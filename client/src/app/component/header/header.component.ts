@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Field } from '../../interface/field';
 import { LucideAngularModule } from 'lucide-angular';
 
@@ -24,18 +24,26 @@ interface Item {
 @Component({
   selector: 'header',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, LucideAngularModule],
+  imports: [ReactiveFormsModule, CommonModule, LucideAngularModule, FormsModule],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
   @Input() title: string = ''; 
   @Input() modalTitle: string = ''; 
+  @Input() isDuplicateChecker: boolean = false 
+  isDisabled: boolean = false 
+  @Input() showAddIcon: boolean = true; 
   @Input() fields: Field[] = [];
   @Input() items: Item[] = [];
+  @Input() rooms: any= [];
   @Output() onSubmitCallback = new EventEmitter<any>();
   @Output() search = new EventEmitter<string>();
   @Output() exportPDFEvent = new EventEmitter<void>();
+  @Input() startDate:any;
+  @Input() endDate:any;
+  @Output() handleStart = new EventEmitter<string>();
+  @Output() handleEnd= new EventEmitter<string>();
 
   isModalOpen = false;
 
@@ -43,12 +51,23 @@ export class HeaderComponent implements OnInit {
   filteredOptions: { [key: string]: any[] } = {};
   currentField: any = null;
 
+  onchangeStart(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    const selectedDate = inputElement.value;
+    this.handleStart.emit(selectedDate); // Emit the start date to the parent
+  }
+
+  onchangeEnd(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    const selectedDate = inputElement.value;
+    this.handleEnd.emit(selectedDate); // Emit the end date to the parent
+  }
+
   constructor(private formBuilder: FormBuilder) {
     this.formGroup = this.formBuilder.group({});
   }
 
   ngOnInit() {
-    
     const formControls: { [key: string]: any } = {};
     this.fields.forEach(field => {
       const {isRequired=true} = field
@@ -67,11 +86,40 @@ export class HeaderComponent implements OnInit {
     this.handleChange('room', 'room_value');
     this.handleChange('name', '');
     this.detectFormGroupChanges();
+    this.onNameChange()
   }
 
   convertChar=(char:string)=>{
     return char?.toLowerCase()?.replace(/\s+/g, '');
   }
+
+
+
+
+  onNameChange() {
+    this.formGroup.get('name')?.valueChanges.subscribe((value: any) => {
+      const isExist = this.rooms.some(({name=''})=>this.convertChar(name)==this.convertChar(value))
+      console.log("is Exist ", isExist)
+      if(this.isDuplicateChecker){
+        this.isDisabled=isExist
+        const errorMessageElement = document.getElementById('errorMessage');
+          
+          if(isExist){
+            if (errorMessageElement) {
+              errorMessageElement.innerHTML = "Name is already exist!";
+            }
+          }else{
+            if (errorMessageElement) {
+              errorMessageElement.innerHTML = "";
+            }
+          }
+      }
+    });
+  }
+
+
+
+
 
 
   detectFormGroupChanges() {

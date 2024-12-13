@@ -4,120 +4,9 @@ const mongoose = require("mongoose"),
 const userSchema = new mongoose.Schema(
   {
     fullName: {
-      fname: {
-        type: String,
-        trim: true,
-        default: "",
-        required: true,
-      },
-      mname: {
-        type: String,
-        trim: true,
-        default: "",
-      },
-      lname: {
-        type: String,
-        trim: true,
-        default: "",
-      },
-      suffix: {
-        type: String,
-        default: "",
-      },
+      type: "String",
     },
-    address: {
-      current: {
-        street: {
-          type: String,
-          trim: true,
-          default: "",
-        },
-        barangay: {
-          type: String,
-          trim: true,
-          default: "",
-        },
-        city: {
-          type: String,
-          trim: true,
-          default: "",
-        },
-        province: {
-          type: String,
-          trim: true,
-          default: "",
-        },
-        region: {
-          type: String,
-          trim: true,
-          default: "",
-        },
-        zip: {
-          type: String,
-          trim: true,
-          default: "",
-        },
-        hn: {
-          type: String,
-          trim: true,
-          default: "",
-        },
-      },
-      permanent: {
-        street: {
-          type: String,
-          trim: true,
-          default: "",
-        },
-        barangay: {
-          type: String,
-          trim: true,
-          default: "",
-        },
-        city: {
-          type: String,
-          trim: true,
-          default: "",
-        },
-        province: {
-          type: String,
-          trim: true,
-          default: "",
-        },
-        region: {
-          type: String,
-          trim: true,
-          default: "",
-        },
-        zip: {
-          type: String,
-          trim: true,
-          default: "",
-        },
-        hn: {
-          type: String,
-          trim: true,
-          default: "",
-        },
-      },
-    },
-    googleID: { type: String, default: "" },
-    dob: {
-      type: String,
-      default: "",
-    },
-    birthplace: {
-      type: String,
-      default: "",
-    },
-    role: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Roles",
-    },
-    mobile: {
-      type: String,
-      default: "",
-    },
+
     email: {
       type: String,
       unique: true,
@@ -125,48 +14,10 @@ const userSchema = new mongoose.Schema(
       trim: true,
     },
 
-    haveEnrollmentAccess: {
-      type: Boolean,
-      default: false,
-    },
     password: {
       type: String,
       required: true,
       minlength: 8,
-    },
-    verified: {
-      type: Boolean,
-      default: false,
-    },
-    isMale: {
-      type: Boolean,
-      default: false,
-    },
-    bio: {
-      type: String,
-      default: "",
-    },
-    wasBanned: {
-      type: Boolean,
-      default: false,
-    },
-
-    wasApproved: {
-      type: Boolean,
-      default: false,
-    },
-    position: "",
-    banned: {
-      by: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Users",
-      },
-      at: {
-        type: String,
-      },
-      for: {
-        type: String,
-      },
     },
   },
   {

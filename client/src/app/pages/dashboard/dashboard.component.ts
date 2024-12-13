@@ -1,8 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { LucideAngularModule } from 'lucide-angular';
 import { ChartModule } from 'primeng/chart';
 import { RoomComponent } from '../room/room.component';
+import { apiService } from '../../services/api.service';
+import { DashboardService } from '../../services/dashboard.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,8 +14,10 @@ import { RoomComponent } from '../room/room.component';
   styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent {
+  private apiService = inject(apiService)
+  private dashboardService = inject(DashboardService)
   value: string | undefined;
-
+  allStatus:any
   inventoryData: any;
   combinedConditionData: any;
   brandData: any;
@@ -21,38 +25,9 @@ export class DashboardComponent {
   barOptions: any;
 
   ngOnInit() {
-    // Inventory items data (Grouped Bar Chart)
-    this.inventoryData = {
-      labels: ['Printers', 'Computers', 'Laptops', 'Chairs', 'Projectors'],
-      datasets: [
-        {
-          label: 'Good',
-          data: [8, 45, 28, 95, 19],
-          backgroundColor: '#10b981',
-        },
-        {
-          label: 'Damaged',
-          data: [2, 5, 1, 3, 0],
-          backgroundColor: '#f87171',
-        },
-        {
-          label: 'Missing',
-          data: [0, 0, 1, 2, 5],
-          backgroundColor: '#fbbf24',
-        },
-      ],
-    };
 
-    // Combined Condition data for Damaged, Good, Missing items (Pie Chart)
-    this.combinedConditionData = {
-      labels: ['Damaged Items', 'Good Items', 'Missing Items'],
-      datasets: [
-        {
-          data: [11, 195, 8],
-          backgroundColor: ['#f87171', '#10b981', '#fbbf24'],
-        },
-      ],
-    };
+    this.BROWSE()
+
 
     this.brandData = {
       labels: ['Logitech', 'A4tech', 'Epson', 'Panorama'],
@@ -78,7 +53,7 @@ export class DashboardComponent {
     this.barOptions = {
       scales: {
         x: {
-          stacked: false, // Disable stacked bars to show separate columns
+          stacked: false, 
           beginAtZero: true,
         },
         y: {
@@ -93,4 +68,52 @@ export class DashboardComponent {
       },
     };
   }
+
+  BROWSE = () => {
+    this.apiService
+      .fetch(this.dashboardService, 'BROWSE', '')
+      .subscribe(({ payload = {} }) => {
+        const {allStatus={} }= payload
+        console.log(allStatus)
+        this.handlePie(allStatus)
+        this.handleBar()
+      });
+  }
+
+  handlePie(allStatus:any){
+    this.combinedConditionData = {
+      labels: Object.keys(allStatus),
+      datasets: [
+        {
+          data: Object.values(allStatus),
+          backgroundColor: ['#10b981','#f87171', '#fbbf24' ],
+        },
+      ],
+    };
+  }
+
+  handleBar(){
+    this.inventoryData = {
+      labels: ['Printers', 'Computers', 'Laptops', 'Chairs', 'Projectors'],
+      datasets: [
+        {
+          label: 'Good',
+          data: [8, 45, 28, 95, 19],
+          backgroundColor: '#10b981',
+        },
+        {
+          label: 'Damaged',
+          data: [2, 5, 1, 3, 0],
+          backgroundColor: '#f87171',
+        },
+        {
+          label: 'Missing',
+          data: [0, 0, 1, 2, 5],
+          backgroundColor: '#fbbf24',
+        },
+      ],
+    };
+
+  }
+
 }

@@ -4,6 +4,8 @@
 	  [items]="items"
 	  (exportPDFEvent) = "exportItemsPdf()"
 	  (search)="onSearch($event)"
+	  (handleStart)="handleStart($event)"
+	  (handleEnd)="handleEnd($event)"
 	></header>
   
 	<div class="overflow-x-auto bg-white p-5 shadow-lg rounded-lg">
@@ -15,8 +17,9 @@
 			<th class="px-4 py-2 text-left">Article</th>
 			<th class="px-4 py-2 text-left">Status</th>
 			<th class="px-4 py-2 text-left">Quantity</th>
-			<th class="px-4 py-2 text-left">Date</th>
 			<th class="px-4 py-2 text-left">Room</th>
+			<th class="px-4 py-2 text-left">Date</th>
+			<th class="px-4 py-2 text-left">Custodian</th>
 		  </tr>
 		</thead>
 		<tbody>
@@ -29,12 +32,13 @@
 			  <small class="block">{{ item.brand.name }}</small>
 			</td>
 			<td class="px-4 py-2">
-			  <strong>{{ item.status }}</strong>
+			  <p>{{ item.status }}</p>
 			  <small class="block">{{ item.condition || '' }}</small>
 			</td>
 			<td class="px-8 py-2">{{ item.quantity }}</td>
-			<th class="px-4 py-2 text-left">{{ item.createdAt | date: 'MMM dd, yyyy hh:mm:a' }}</th>
 			<td class="px-4 py-2">{{ item.room.name }}</td>
+			<td class="px-4 py-2 text-left">{{ item.createdAt | date: 'MMM dd, yyyy hh:mm:a' }}</td>
+			<td class="px-4 py-2">{{ item?.registrar?.fullName || '--'}}</td>
 		  </tr>
 		  }
 		  <tr
