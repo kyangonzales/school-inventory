@@ -1,39 +1,52 @@
-<div class="w-64 text-white min-h-screen" [ngStyle]="{ 'background': 'linear-gradient(to bottom, #0f369c 0%, #1d53b4 13%, #37a2f5 48%, #3395ea 69%)' }">
-	<div class="p-6">
-		<div class="text-center  mb-3">
-			<img src="assets/papayalogo.png" alt="Logo" class="w-24 h-24 mx-auto">
-			<p class="text-2xl font-semibold mt-2 oswald-font">NEUST IMS</p>
-			<small class="font-semibold text-white text-sm">Track. Manage. Organize</small>
-		</div>
+<div
+  class="w-60 text-white min-h-screen shadow-xl"
+  [ngStyle]="{
+    background:
+      'linear-gradient(to bottom, #0f369c 0%, #1d53b4 13%, #37a2f5 48%, #3395ea 69%)'
+  }"
+>
+  <div class="p-3">
+    <div class="text-center mb-3">
+      <img src="assets/papayalogo.png" alt="Logo" class="w-24 h-24 mx-auto" />
+      <p class="text-2xl font-semibold mt-2 text-white oswald-font">
+        NEUST IMS
+      </p>
+      <small class="font-semibold text-white text-sm">
+        Track. Manage. Organize
+      </small>
+    </div>
 
-		<hr>
-	  <ul class="mt-4">
-		@for(item of sidebarItems; track item.id){
-		<li class="mb-4 sideList">
-			<a 
-				routerLink="{{item.path.value}}"
-				[routerLinkActive]="item.path.name === 'all' ? '' : 'active'"
-				class="flex items-center text-lg p-2 rounded hover:bg-blue-800 text-white" 
-				(click)="item.submenu ? toggleSubmenu() : null" 
-			>
-			<lucide-icon [name]="item.icon" class="mr-3 w-6 h-6"></lucide-icon>
-			<span>{{ item.label }}</span>			
-            <lucide-icon *ngIf="item.submenu" name="ChevronDown" class="ml-auto"></lucide-icon>
-		  	</a>
-			  <ul *ngIf="isSubmenuOpen && item.submenu" class="pl-8 mt-2">
-                <li *ngFor="let subItem of item.submenu" class="mb-2">
-                    <a
-						[routerLink]="subItem.path.value"
-						[routerLinkActive]="subItem.path.name === 'all' ? '' : 'active'"
-                        class="flex items-center text-md px-2 rounded hover:bg-blue-800 text-white"
-                    >
-                    <span>{{ subItem.label }}</span>
-                    </a>
-                </li>
-            </ul>
-		</li>
-		}
-	  </ul>
-	</div>
+    <hr />
+    <ul class="mt-4">
+      <li *ngFor="let item of sidebarItems" class="mb-4 sideList">
+        <a
+          routerLink="{{ item.path.value }}"
+          [routerLinkActive]="item.path.name === 'all' ? '' : 'active'"
+          class="flex items-center text-md p-1 rounded hover:bg-gray-200 hover:bg-opacity-50 text-white"
+          (click)="item.submenu ? toggleSubmenu() : null"
+        >
+          <lucide-icon [name]="item.icon" class="mr-3 w-5 h-5"></lucide-icon>
+          <span>{{ item.label }}</span>
+          <lucide-icon
+            *ngIf="item.submenu"
+            name="ChevronDown"
+            class="ml-auto"
+          ></lucide-icon>
+        </a>
+
+        <!-- Submenu for items -->
+        <ul *ngIf="isSubmenuOpen && item.submenu" class="pl-8 mt-2">
+          <li *ngFor="let subItem of item.submenu" class="mb-2">
+            <a
+              [routerLink]="subItem.path.value"
+              [routerLinkActive]="subItem.path.name === 'all' ? '' : 'active'"
+              class="flex items-center text-md px-2 py-1 rounded hover:bg-gray-300 hover:bg-opacity-50 text-white"
+            >
+              <span>{{ subItem.label }}</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
 </div>
-

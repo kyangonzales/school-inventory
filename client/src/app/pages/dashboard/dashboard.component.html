@@ -1,31 +1,24 @@
-<div class="bg-white p-6 rounded-lg shadow-lg w-full">
-
-  <!-- Existing Charts -->
-  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-    <div class="p-4 h-[22rem] w-[22rem]">
-      <p-chart type="pie" [data]="combinedConditionData" [options]="options" ></p-chart>
-      <p class="text-center text-gray-700 mt-1">Condition of Items (Damaged, Good, Missing)</p>
+<div class="bg-white p-2 rounded-sm shadow-xl w-full">
+  <div class="grid grid-cols-12 mb-2 mt-5">
+    <div class="col-span-4">
+      <p-chart
+        type="pie"
+        [data]="combinedConditionData"
+        [options]="options"
+      ></p-chart>
+      <p class="text-center text-gray-700 mt-1">Condition of Items</p>
     </div>
-    <div class="p-4">
-      <p-chart type="bar" [data]="inventoryData" [options]="barOptions"></p-chart>
-      <p class="text-center text-gray-700 mt-2">Inventory Items</p>
+    <div class="col-span-8 mr-5">
+      <p-chart
+        type="bar"
+        [data]="inventoryData"
+        [options]="barOptions"
+      ></p-chart>
+      <p class="text-center text-black-700 mt-3">Inventory Items</p>
     </div>
-    <!-- <div class="p-4 h-[22rem] w-[22rem]">
-      <p-chart type="doughnut" [data]="brandData" [options]="options" class="h-32 w-32"></p-chart>
-      <p class="text-center text-gray-700 mt-1">Brand Distribution</p>
-    </div> -->
   </div>
 
-  <div class="grid grid-cols-1 mt-10">
-    <app-room [showControls]="false" [showAdd]="false" ></app-room>
-
-    <!-- <div class="p-4 w-98">
-      <p-chart type="bar" [data]="inventoryData" [options]="barOptions"></p-chart>
-      <p class="text-center text-gray-700 mt-2">Inventory Items</p>
-    </div> -->
+  <div class="grid grid-cols-1 mt-5">
+    <app-room [showControls]="false" [showAdd]="false"></app-room>
   </div>
-  
-
-
-
 </div>

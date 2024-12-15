@@ -1,58 +1,57 @@
-
 <div class="relative mb-4 mt-10">
-	<header 
-		[title]="pageTitle" 
-		[modalTitle]="'Add Stock'" 
-		[fields]="modalFields" 
-		(onSubmitCallback)="handleAddStock($event)"
-		(exportPDFEvent) = "exportStock()"
-		(search)="onSearch($event)"
-		> 
-	</header>
+  <header
+    [title]="pageTitle"
+    [modalTitle]="'Add Stock'"
+    [fields]="modalFields"
+    (onSubmitCallback)="handleAddStock($event)"
+    (exportPDFEvent)="exportStock()"
+    (search)="onSearch($event)"
+  ></header>
 
-	<div class="overflow-x-auto bg-white p-5 shadow-lg rounded-lg">
-		<table class="min-w-full table-auto border-collapse mt-8">
-			<thead>
-				<tr class=" text-gray-700">
-					<th class="px-4 py-2 text-center">#</th>
-					<th class="px-4 py-2 text-left">Name</th>
-					<th class="px-4 py-2 text-left">Good</th>
-					<th class="px-4 py-2 text-left">Missing</th>
-					<th class="px-4 py-2 text-left">Damage</th>
-					<th class="px-4 py-2 text-left">Total</th>
-				</tr>
-			</thead>
-			<tbody>
-				@for(stock of filteredStocks; track stock._id; let index=$index){
-					<tr class="border-t hover:bg-gray-100 odd:bg-white odd:dark:bg-gray-100">
-						<td class="px-4 py-2 text-center">{{index+1}}</td>
-						<td class="px-4 py-2">
-							<strong>{{ stock.name }}</strong>
-							<small class="block">{{ stock.brand.name }}</small>
-						  </td>
-						<td class="px-4 py-2">{{stock.Good}}</td>
-						<td class="px-4 py-2">{{stock.Missing}}</td>
-						<td class="px-4 py-2">{{stock.Damage}}</td>
-						<td class="px-4 py-2">{{stock.Good +  stock.Missing + stock.Damage}}</td>
-					</tr>
-				}
-				<tr *ngIf="filteredStocks.length === 0" class="border-t hover:bg-gray-50 text-center"> 
-					<td class="px-4 py-2" colspan="8">No results found</td> 
-				</tr>
-			</tbody>
-		</table>
+  <div class="overflow-x-auto bg-white p-5 shadow-lg rounded-sm">
+    <table class="min-w-full table-auto border-collapse mt-8">
+      <thead>
+        <tr class="text-black">
+          <th class="px-4 py-2 text-center">#</th>
+          <th class="px-4 py-2 text-left">Name</th>
+          <th class="px-4 py-2 text-center">Good</th>
+          <th class="px-4 py-2 text-center">Missing</th>
+          <th class="px-4 py-2 text-center">Damage</th>
+          <th class="px-4 py-2 text-center">Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for(stock of filteredStocks; track stock._id; let index=$index){
+        <tr class="border-t">
+          <td class="px-4 py-4 text-center">{{ index + 1 }}</td>
+          <td class="px-4 py-4">
+            <strong>{{ stock.name }}</strong>
+            <small class="block">{{ stock.brand.name }}</small>
+          </td>
+          <td class="px-4 py-4 text-center">{{ stock.Good }}</td>
+          <td class="px-4 py-4 text-center">{{ stock.Missing }}</td>
+          <td class="px-4 py-4 text-center">{{ stock.Damage }}</td>
+          <td class="px-4 py-4 text-center">
+            {{ stock.Good + stock.Missing + stock.Damage }}
+          </td>
+        </tr>
+        }
+        <tr
+          *ngIf="filteredStocks.length === 0"
+          class="border-t hover:bg-gray-50 text-center"
+        >
+          <td class="px-4 py-2" colspan="8">No results found</td>
+        </tr>
+      </tbody>
+    </table>
 
-
-		
-		
-		<pagination 
-		[totalItems]="paginationService.totalItems" 
-		[(itemsPerPage)]="paginationService.itemsPerPage" 
-		[currentPage]="paginationService.currentPage"
-		(itemsPerPageChange)="onStocksPerPageChange($event)"
-		(pageChange)="onPageChange($event)">
-		</pagination>
-
-
-	</div>
+    <pagination
+      [totalItems]="paginationService.totalItems"
+      [(itemsPerPage)]="paginationService.itemsPerPage"
+      [currentPage]="paginationService.currentPage"
+      (itemsPerPageChange)="onStocksPerPageChange($event)"
+      (pageChange)="onPageChange($event)"
+    >
+    </pagination>
+  </div>
 </div>

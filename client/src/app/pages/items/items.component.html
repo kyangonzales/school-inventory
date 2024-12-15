@@ -5,14 +5,14 @@
     [fields]="modalFields"
     [items]="items"
     (onSubmitCallback)="handleSubmit($event)"
-    (exportPDFEvent) = "exportItemsPdf()"
+    (exportPDFEvent)="exportItemsPdf()"
     (search)="onSearch($event)"
   ></header>
 
-  <div class="overflow-x-auto bg-white p-5 shadow-lg rounded-lg">
+  <div class="overflow-x-auto bg-white p-5 shadow-lg rounded-sm">
     <table class="min-w-full table-auto border-collapse mt-8">
       <thead>
-        <tr class=" text-gray-700">
+        <tr class="text-black border-b-2">
           <th class="px-4 py-2 text-center">#</th>
           <th class="px-4 py-2 text-left">Barcode</th>
           <th class="px-4 py-2 text-left">Article</th>
@@ -24,20 +24,22 @@
       </thead>
       <tbody>
         @for(item of filteredItems; track item._id; let index = $index){
-        <tr class="border-t  odd:bg-white odd:dark:bg-gray-100">
-          <td class="px-4 py-2 text-center">{{ index + 1 }}</td>
-          <td class="px-4 py-2">{{ item.barcode }}</td>
-          <td class="px-4 py-2">
+        <tr class="border-t">
+          <td class="px-4 py-4 text-center">{{ index + 1 }}</td>
+          <td class="px-4 py-4">{{ item.barcode }}</td>
+          <td class="px-4 py-4">
             <strong>{{ item.name }}</strong>
             <small class="block">{{ item.brand.name }}</small>
           </td>
-          <td class="px-4 py-2">
+          <td class="px-4 py-4">
             <strong>{{ item.status }}</strong>
-            <small class="block">{{ item.condition || '' }}</small>
+            <small class="block">{{ item.condition || "" }}</small>
           </td>
-          <td class="px-8 py-2">{{ item.quantity }}</td>
-          <td class="px-4 py-2">{{ item.room.name }}</td>
-          <td class="px-4 py-2 text-left">{{ item.createdAt | date: 'MMM dd, yyyy hh:mm:a' }}</td>
+          <td class="px-8 py-4">{{ item.quantity }}</td>
+          <td class="px-4 py-4">{{ item.room.name }}</td>
+          <td class="px-4 py-4 text-left">
+            {{ item.createdAt | date : "MMM dd, yyyy hh:mm:a" }}
+          </td>
 
           <!-- <td class="px-4 py-2">
             <button

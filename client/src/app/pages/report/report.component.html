@@ -1,63 +1,64 @@
 <div class="relative mb-4 mt-10">
-	<header
-	  [title]="pageTitle"
-	  [items]="items"
-	  (exportPDFEvent) = "exportItemsPdf()"
-	  (search)="onSearch($event)"
-	  (handleStart)="handleStart($event)"
-	  (handleEnd)="handleEnd($event)"
-	></header>
-  
-	<div class="overflow-x-auto bg-white p-5 shadow-lg rounded-lg">
-	  <table class="min-w-full table-auto border-collapse mt-8">
-		<thead>
-		  <tr class=" text-gray-700">
-			<th class="px-4 py-2 text-center">#</th>
-			<th class="px-4 py-2 text-left">Barcode</th>
-			<th class="px-4 py-2 text-left">Article</th>
-			<th class="px-4 py-2 text-left">Status</th>
-			<th class="px-4 py-2 text-left">Quantity</th>
-			<th class="px-4 py-2 text-left">Room</th>
-			<th class="px-4 py-2 text-left">Date</th>
-			<th class="px-4 py-2 text-left">Custodian</th>
-		  </tr>
-		</thead>
-		<tbody>
-		  @for(item of items; track item._id; let index = $index){
-		  <tr class="border-t  odd:bg-white odd:dark:bg-gray-100">
-			<td class="px-4 py-2 text-center">{{ index + 1 }}</td>
-			<td class="px-4 py-2">{{ item.barcode }}</td>
-			<td class="px-4 py-2">
-			  <strong>{{ item.name }}</strong>
-			  <small class="block">{{ item.brand.name }}</small>
-			</td>
-			<td class="px-4 py-2">
-			  <p>{{ item.status }}</p>
-			  <small class="block">{{ item.condition || '' }}</small>
-			</td>
-			<td class="px-8 py-2">{{ item.quantity }}</td>
-			<td class="px-4 py-2">{{ item.room.name }}</td>
-			<td class="px-4 py-2 text-left">{{ item.createdAt | date: 'MMM dd, yyyy hh:mm:a' }}</td>
-			<td class="px-4 py-2">{{ item?.registrar?.fullName || '--'}}</td>
-		  </tr>
-		  }
-		  <tr
-			*ngIf="items.length === 0"
-			class="border-t hover:bg-gray-50 text-center"
-		  >
-			<td class="px-4 py-2" colspan="6">No results found</td>
-		  </tr>
-		</tbody>
-	  </table>
-	  
-	  <pagination 
-	  [totalItems]="paginationService.totalItems" 
-	  [(itemsPerPage)]="paginationService.itemsPerPage" 
-	  [currentPage]="paginationService.currentPage"
-	  (itemsPerPageChange)="onItemsPerPageChange($event)"
-	  (pageChange)="onPageChange($event)">
-	  </pagination>
+  <header
+    [title]="pageTitle"
+    [items]="items"
+    (exportPDFEvent)="exportItemsPdf()"
+    (search)="onSearch($event)"
+    (handleStart)="handleStart($event)"
+    (handleEnd)="handleEnd($event)"
+  ></header>
 
-	</div>
+  <div class="overflow-x-auto bg-white p-5 shadow-lg rounded-sm">
+    <table class="min-w-full table-auto border-collapse mt-8">
+      <thead>
+        <tr class="text-black">
+          <th class="px-4 py-2 text-center">#</th>
+          <th class="px-4 py-2 text-left">Barcode</th>
+          <th class="px-4 py-2 text-left">Article</th>
+          <th class="px-4 py-2 text-left">Status</th>
+          <th class="px-4 py-2 text-left">Quantity</th>
+          <th class="px-4 py-2 text-left">Room</th>
+          <th class="px-4 py-2 text-left">Date</th>
+          <th class="px-4 py-2 text-left">Custodian</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for(item of items; track item._id; let index = $index){
+        <tr class="border-t">
+          <td class="px-4 py-4 text-center">{{ index + 1 }}</td>
+          <td class="px-4 py-4">{{ item.barcode }}</td>
+          <td class="px-4 py-4">
+            <strong>{{ item.name }}</strong>
+            <small class="block">{{ item.brand.name }}</small>
+          </td>
+          <td class="px-4 py-4">
+            <p>{{ item.status }}</p>
+            <small class="block">{{ item.condition || "" }}</small>
+          </td>
+          <td class="px-8 py-4">{{ item.quantity }}</td>
+          <td class="px-4 py-4">{{ item.room.name }}</td>
+          <td class="px-4 py-4 text-left">
+            {{ item.createdAt | date : "MMM dd, yyyy hh:mm:a" }}
+          </td>
+          <td class="px-4 py-4">{{ item?.registrar?.fullName || "--" }}</td>
+        </tr>
+        }
+        <tr
+          *ngIf="items.length === 0"
+          class="border-t hover:bg-gray-50 text-center"
+        >
+          <td class="px-4 py-4" colspan="6">No results found</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <pagination
+      [totalItems]="paginationService.totalItems"
+      [(itemsPerPage)]="paginationService.itemsPerPage"
+      [currentPage]="paginationService.currentPage"
+      (itemsPerPageChange)="onItemsPerPageChange($event)"
+      (pageChange)="onPageChange($event)"
+    >
+    </pagination>
   </div>
-  
+</div>
