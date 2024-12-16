@@ -1,4 +1,4 @@
-import { Component, OnInit  } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { CommonModule } from '@angular/common';
@@ -10,20 +10,29 @@ import { filter } from 'rxjs';
   standalone: true,
   imports: [RouterOutlet, SidebarComponent, CommonModule, LucideAngularModule],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.css',
 })
-export class AppComponent implements OnInit { // Implement OnInit
-  dropdownVisible: boolean = false;  
-  fullName:string=''
-  constructor(public authService: AuthService, private router: Router){}
+export class AppComponent implements OnInit {
+  // Implement OnInit
+  dropdownVisible: boolean = false;
+  isScrolled: boolean = false;
+  fullName: string = '';
+  constructor(public authService: AuthService, private router: Router) {}
+
+  @HostListener('window:scroll', [])
+  onScroll(): void {
+    const scrollTop = window.scrollY || document.documentElement.scrollTop;
+    this.isScrolled = scrollTop > 0; // Adjust the threshold as needed
+    console.log(scrollTop);
+  }
 
   ngOnInit(): void {
     this.loadUserInfo();
-    this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd)
-    ).subscribe(() => {
-      this.loadUserInfo();
-    });
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe(() => {
+        this.loadUserInfo();
+      });
   }
   loadUserInfo() {
     const info = this.authService.info();
@@ -31,13 +40,12 @@ export class AppComponent implements OnInit { // Implement OnInit
     console.log(info);
   }
 
-  toggleDropdown() { 
-    this.dropdownVisible = !this.dropdownVisible; 
-  } 
-  logout() {
-    this.dropdownVisible=false;
-    localStorage.clear();
-    this.router.navigate(['/login']); 
+  toggleDropdown() {
+    this.dropdownVisible = !this.dropdownVisible;
   }
-  
+  logout() {
+    this.dropdownVisible = false;
+    localStorage.clear();
+    this.router.navigate(['/login']);
+  }
 }

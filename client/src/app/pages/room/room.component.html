@@ -7,67 +7,65 @@
 >
   <div class="relative p-4 w-full max-w-6xl max-h-full">
     <div class="relative bg-white rounded-lg shadow-lg">
-      <div
-        class="flex items-center justify-between p-4 md:p-5 border-b rounded-t"
-      >
-        <h3 class="text-xl font-semibold text-gray-900">Room Inventory</h3>
+      <div class="flex items-center justify-between p-3 border-b rounded-t">
+        <div class="flex aligns-center">
+          <h3 class="text-xl font-semibold text-black-900 mt-1 mr-3">Rooms</h3>
+        </div>
         <button
-          (click)="toggleModal()"
-          class="text-gray-400 bg-transparent hover:bg-gray-200 rounded-full p-1"
+          (click)="exportData()"
+          class="py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 flex aligns-center shadow-md mr-2"
         >
-          <svg
-            class="w-3 h-3"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 14 14"
-          >
-            <path
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-            />
-          </svg>
-          <span class="sr-only">Close modal</span>
+          Export <lucide-icon name="file-down" class="ml-1"></lucide-icon>
         </button>
-      </div>
-
-      <div class="p-4 md:p-5 space-y-4">
-        <div class="flex justify-end items-center mb-4">
+        <div>
           <button
-            (click)="exportData()"
-            class="py-2 px-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+            (click)="toggleModal()"
+            class="text-gray-400 bg-transparent hover:bg-gray-200 rounded-full p-1"
           >
-            Export
+            <svg
+              class="w-3 h-3"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 14 14"
+            >
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+              />
+            </svg>
+            <span class="sr-only">Close modal</span>
           </button>
         </div>
-        <table class="min-w-full table-auto border-collapse mt-8">
+      </div>
+
+      <div>
+        <table class="min-w-full table-auto border-collapse mt-5">
           <thead>
-            <tr class="text-gray-700">
-              <th class="px-4 py-2 text-center">#</th>
-              <th class="px-4 py-2 text-center">Name</th>
-              <th class="px-4 py-2 text-center">Good</th>
-              <th class="px-4 py-2 text-center">Damage</th>
-              <th class="px-4 py-2 text-center">Missing</th>
-              <th class="px-4 py-2 text-center">Total</th>
+            <tr class="text-black-700">
+              <th class="px-4 py-2 text-center font-normal">#</th>
+              <th class="px-4 py-2 text-left font-normal">Name</th>
+              <th class="px-4 py-2 text-center font-normal">Good</th>
+              <th class="px-4 py-2 text-center font-normal">Damage</th>
+              <th class="px-4 py-2 text-center font-normal">Missing</th>
+              <th class="px-4 py-2 text-center font-normal">Total</th>
             </tr>
           </thead>
           <tbody>
             @for(item of items; track item._id; let index = $index){
-            <tr
-              class="border-t hover:bg-gray-100 text-center odd:bg-white odd:dark:bg-gray-100"
-            >
-              <td class="px-4 py-2">{{ index + 1 }}</td>
-              <td class="px-4 py-2">
+            <tr class="border-t">
+              <td class="px-4 py-4 text-center">{{ index + 1 }}</td>
+              <td class="px-4 py-4">
                 <strong>{{ item.name }}</strong>
                 <small class="block">{{ item.brand.name }}</small>
               </td>
-              <td class="px-4 py-2">{{ item.Good }}</td>
-              <td class="px-4 py-2">{{ item.Damage }}</td>
-              <td class="px-4 py-2">{{ item.Missing }}</td>
-              <td class="px-4 py-2">
+              <td class="px-4 py-4 text-center">{{ item.Good }}</td>
+              <td class="px-4 py-4 text-center">{{ item.Damage }}</td>
+              <td class="px-4 py-4 text-center">{{ item.Missing }}</td>
+              <td class="px-4 py-4 text-center">
                 {{ item.Good + item.Damage + item.Missing }}
               </td>
             </tr>
@@ -76,7 +74,7 @@
               *ngIf="items.length === 0"
               class="border-t hover:bg-gray-50 text-center"
             >
-              <td class="px-4 py-2" colspan="6">No results found</td>
+              <td class="px-4 py-4" colspan="6">No results found</td>
             </tr>
           </tbody>
         </table>
@@ -88,7 +86,7 @@
           (click)="toggleModal()"
           data-modal-hide="static-modal"
           type="button"
-          class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-300 hover:bg-gray-100 hover:text-red-700 focus:z-10 focus:ring-4 focus:ring-gray-200"
+          class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white shadow-md rounded-md border border-gray-300 hover:bg-gray-100 hover:text-red-700 focus:z-10 focus:ring-4 focus:ring-gray-200"
         >
           Close
         </button>
@@ -114,13 +112,13 @@
     <table class="min-w-full table-auto border-collapse mt-8">
       <thead>
         <tr class="text-black">
-          <th class="px-4 py-2 text-center">#</th>
-          <th class="px-4 py-2 text-left">Name</th>
-          <th class="px-4 py-2 text-center">Good</th>
-          <th class="px-4 py-2 text-center">Missing</th>
-          <th class="px-4 py-2 text-center">Damaged</th>
-          <th class="px-4 py-2 text-center">No of item</th>
-          <th class="px-4 py-2 text-center">Action</th>
+          <th class="px-4 py-2 text-center font-normal">#</th>
+          <th class="px-4 py-2 text-left font-normal">Name</th>
+          <th class="px-4 py-2 text-center font-normal">Good</th>
+          <th class="px-4 py-2 text-center font-normal">Missing</th>
+          <th class="px-4 py-2 text-center font-normal">Damaged</th>
+          <th class="px-4 py-2 text-center font-normal">No of item</th>
+          <th class="px-4 py-2 text-center font-normal">Action</th>
         </tr>
       </thead>
       <tbody>
