@@ -1,4 +1,7 @@
-<div *ngIf="authService.isLoggedIn(); else loginTemplate" class="bg-[#eeeeee]">
+<div
+  *ngIf="authService.isLoggedIn() && !isPrintOut; else loginTemplate"
+  class="bg-[#eeeeee]"
+>
   <div class="flex h-screen">
     <sidebar
       class="w-60 fixed top-0 left-0 h-full bg-gray-800 text-white"
@@ -39,6 +42,9 @@
     </div>
   </div>
 </div>
+<ng-template #printOutTemplate>
+  <router-outlet></router-outlet>
+</ng-template>
 
 <ng-template #loginTemplate>
   <router-outlet></router-outlet>

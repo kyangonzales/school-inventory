@@ -1,0 +1,22 @@
+@media print {
+  /* Hide everything except the content inside #printContent */
+  body * {
+    visibility: hidden;
+  }
+
+  #printContent,
+  #printContent * {
+    visibility: visible;
+  }
+
+  /* Optional: Remove the margin/padding for print */
+  #printContent {
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Optional: Hide certain elements */
+  .no-print {
+    display: none;
+  }
+}

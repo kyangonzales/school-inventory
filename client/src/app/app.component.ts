@@ -1,5 +1,10 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
+import {
+  RouterOutlet,
+  Router,
+  NavigationEnd,
+  ActivatedRoute,
+} from '@angular/router';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { CommonModule } from '@angular/common';
 import { LucideAngularModule } from 'lucide-angular';
@@ -15,15 +20,19 @@ import { filter } from 'rxjs';
 export class AppComponent implements OnInit {
   // Implement OnInit
   dropdownVisible: boolean = false;
+  isPrintOut: boolean = false;
   isScrolled: boolean = false;
   fullName: string = '';
-  constructor(public authService: AuthService, private router: Router) {}
+  constructor(
+    public authService: AuthService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute
+  ) {}
 
   @HostListener('window:scroll', [])
   onScroll(): void {
     const scrollTop = window.scrollY || document.documentElement.scrollTop;
     this.isScrolled = scrollTop > 0; // Adjust the threshold as needed
-    console.log(scrollTop);
   }
 
   ngOnInit(): void {
@@ -31,7 +40,15 @@ export class AppComponent implements OnInit {
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe(() => {
+        let currentRoute = this.activatedRoute.root;
+        this.isPrintOut = false; // Default na value
         this.loadUserInfo();
+        while (currentRoute.firstChild) {
+          currentRoute = currentRoute.firstChild;
+          if (currentRoute.snapshot.data['isPrintOut']) {
+            this.isPrintOut = true;
+          }
+        }
       });
   }
   loadUserInfo() {

@@ -7,72 +7,75 @@ import { BrandComponent } from './pages/brand/brand.component';
 import { ItemsComponent } from './pages/items/items.component';
 import { RoomComponent } from './pages/room/room.component';
 import { AuthGuard } from './auth.guard';
-import { NotFoundComponent } from './pages/not-found/not-found.component'
+import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { ReportComponent } from './pages/report/report.component';
+import { PrintOutComponent } from './component/print-out/print-out.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   {
+    path: 'printOut',
+    component: PrintOutComponent,
+    data: { isPrintOut: true },
+  },
+  {
     path: '',
     component: DashboardComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
   {
     path: 'dashboard',
     component: DashboardComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
   {
     path: 'stocks',
     component: StocksComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
   {
     path: 'brand',
     component: BrandComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
   {
     path: 'items',
     component: ItemsComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
   {
     path: 'inventory',
     component: InventoryComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
   {
     path: 'room',
     component: RoomComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
   {
     path: 'report',
     component: ReportComponent,
     canActivate: [AuthGuard],
-    data: { reportType: 'Good' }
-  }
-  ,
+    data: { reportType: 'Good' },
+  },
   {
     path: 'good',
     component: ReportComponent,
     canActivate: [AuthGuard],
-    data: { reportType: 'Good' }
-  }
-  ,
+    data: { reportType: 'Good' },
+  },
   {
     path: 'damage',
     component: ReportComponent,
     canActivate: [AuthGuard],
-    data: { reportType: 'Damage' }
-  }
-  ,
+    data: { reportType: 'Damage' },
+  },
   {
     path: 'missing',
     component: ReportComponent,
     canActivate: [AuthGuard],
-    data: { reportType: 'Missing' }
+    data: { reportType: 'Missing' },
   },
-  { path: '**', component: NotFoundComponent}
+  { path: '**', component: NotFoundComponent },
 ];
