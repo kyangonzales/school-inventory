@@ -31,4 +31,16 @@ export class PrintOutComponent {
       this.rooms = arrangeItems;
     }
   }
+
+  handlePrints = () => {
+    const body = document.getElementById('body');
+    const printContent = document.getElementById('printContent');
+    const headerView = document.getElementById('header-for-print');
+    const headerPrint = document.getElementById('header-for-view');
+
+    if (body && printContent && headerPrint && headerView) {
+      headerPrint.classList.remove('hidden');
+      headerView.classList.add('hidden');
+    }
+  };
 }

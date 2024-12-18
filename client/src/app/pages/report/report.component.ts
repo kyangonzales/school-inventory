@@ -95,7 +95,10 @@ export class ReportComponent implements OnInit {
       'width=800,height=600,scrollbars=yes,resizable=yes'
     );
 
-    localStorage.setItem('printOut', JSON.stringify({ items: this.items }));
+    localStorage.setItem(
+      'printOut',
+      JSON.stringify({ items: this.collections })
+    );
 
     if (popup) {
       popup.focus();
