@@ -92,7 +92,7 @@ export class ReportComponent implements OnInit {
     const popup = window.open(
       url,
       'PDFReport',
-      'width=800,height=600,scrollbars=yes,resizable=yes'
+      `width=${window.innerWidth},height=${window.innerHeight},scrollbars=yes,resizable=yes`
     );
 
     localStorage.setItem(

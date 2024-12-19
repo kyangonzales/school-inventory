@@ -1,16 +1,5 @@
 <div class="grid grid-cols-12 min-h-screen bg-[#eeeeee]" id="body">
   <div class="col-span-8 col-start-3 mb-10">
-    <div class="flex aligns-center justify-center mt-5 buttons">
-      <button class="bg-blue-500 shadow-lg rounded w-32 h-11 text-white">
-        Generate PDF
-      </button>
-      <button
-        class="ml-4 bg-blue-700 shadow-lg rounded w-20 h-11 text-white"
-        (click)="handlePrints()"
-      >
-        Print
-      </button>
-    </div>
     <div class="bg-white shadow-xl printContent">
       <div class="header-for-view">
         <div class="mb-3 mt-2 ml-[3rem] flex aligns-center">
@@ -57,39 +46,42 @@
       <div class="p-3">
         @for (room of rooms; let index =$index; track index ) {
         <div class="table-container">
-          <h2 [ngClass]="{ 'mt-3': index !== 0, 'text-1xl': true }">
-            Location:<span class="font-bold"> {{ room.name }}</span>
-          </h2>
-          <table class="table-auto w-full border-collapse">
+          <table class="table-auto w-full">
             <thead class="sticky top-0 bg-white z-10">
               <tr>
+                <th colspan="12" class="text-left font-normal">
+                  <h2 [ngClass]="{ 'mt-3': index !== 0, 'text-1xl': true }">
+                    Location:<span class="font-bold"> {{ room.name }}</span>
+                  </h2>
+                </th>
+              </tr>
+              <tr class="border-b">
                 <th class="text-left px-4 py-2 font-semibold">Barcode</th>
                 <th class="text-left px-4 py-2">Name</th>
-                <th class="text-left px-4 py-2">Good</th>
-                <th class="text-left px-4 py-2">Missing</th>
-                <th class="text-left px-4 py-2">Damaged</th>
-                <th class="text-left px-4 py-2">Defective</th>
+                <th class="text-center px-4 py-2">Good</th>
+                <th class="text-center px-4 py-2">Missing</th>
+                <th class="text-center px-4 py-2">Damaged</th>
+                <th class="text-center px-4 py-2">Defective</th>
               </tr>
             </thead>
             <tbody>
               @for (item of room.items; track $index) {
-              <tr class="border-t">
+              <tr class="border-t border-b">
                 <td class="px-4 py-2 text-left w-[12rem]">1023472128231</td>
                 <td class="px-4 py-2 text-left w-[12rem]">
                   <strong>{{ item.name }}</strong>
                   <small class="block">{{ item.brand.name }}</small>
                 </td>
-                <td class="px-4 py-2 text-left w-[10rem]">12</td>
-                <td class="px-4 py-2 w-[10rem]">
+                <td class="px-4 py-2 text-center w-[10rem]">12</td>
+                <td class="px-4 py-2 w-[10rem] text-center">
                   {{ item.quantity }}
                 </td>
-                <td class="px-4 py-2 w-[12rem]">32</td>
-                <td class="px-4 py-2 w-[12rem]">15</td>
+                <td class="px-4 py-2 w-[12rem] text-center">32</td>
+                <td class="px-4 py-2 w-[12rem] text-center">15</td>
               </tr>
               }
             </tbody>
           </table>
-          <hr />
         </div>
         }
       </div>
