@@ -20,22 +20,16 @@
     <ul class="mt-4">
       <li *ngFor="let item of sidebarItems" class="mb-4 sideList">
         <a
-          routerLink="{{ item.path.value }}"
-          [routerLinkActive]="item.path.name === 'all' ? '' : 'active'"
+          routerLink="{{ item.path }}"
+          [routerLinkActive]="'active'"
           class="flex items-center text-md p-1 rounded hover:bg-gray-200 hover:bg-opacity-50 text-white"
-          (click)="item.submenu ? toggleSubmenu() : null"
         >
           <lucide-icon [name]="item.icon" class="mr-3 w-5 h-5"></lucide-icon>
           <span>{{ item.label }}</span>
-          <lucide-icon
-            *ngIf="item.submenu"
-            name="ChevronDown"
-            class="ml-auto"
-          ></lucide-icon>
         </a>
 
         <!-- Submenu for items -->
-        <ul *ngIf="isSubmenuOpen && item.submenu" class="pl-8 mt-2">
+        <!-- <ul *ngIf="isSubmenuOpen && item.submenu" class="pl-8 mt-2">
           <li *ngFor="let subItem of item.submenu" class="mb-2">
             <a
               [routerLink]="subItem.path.value"
@@ -45,7 +39,7 @@
               <span>{{ subItem.label }}</span>
             </a>
           </li>
-        </ul>
+        </ul> -->
       </li>
     </ul>
   </div>

@@ -8,6 +8,13 @@ import { CommonModule } from '@angular/common';
 import { HeaderComponent } from '../../component/header/header.component';
 import { DatePipe } from '@angular/common';
 import { PaginationComponent } from '../../component/pagination/pagination.component';
+
+interface Room {
+  _id: string;
+  name: string;
+  createdAt: string;
+}
+
 @Component({
   selector: 'app-report',
   standalone: true,
@@ -22,7 +29,7 @@ export class ReportComponent implements OnInit {
   private pdfService = inject(PdfService);
   paginationService = inject(PaginationService);
   type: string | null = null;
-  items: any[] = [];
+  rooms: any[] = [];
   collections: any[] = [];
   pageTitle = '';
   startDate: any;
@@ -45,7 +52,7 @@ export class ReportComponent implements OnInit {
     const _endDate = this.endDate;
     if (_endDate) {
       const filteredItems = this.filterItemsByDate(date, _endDate);
-      this.items = filteredItems;
+      this.rooms = filteredItems;
     }
     this.startDate = date;
   }
@@ -53,7 +60,7 @@ export class ReportComponent implements OnInit {
     const _startDate = this.startDate;
     if (_startDate) {
       const filteredItems = this.filterItemsByDate(_startDate, date);
-      this.items = filteredItems;
+      this.rooms = filteredItems;
     }
     this.endDate = date;
   }
@@ -61,22 +68,30 @@ export class ReportComponent implements OnInit {
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.route.data.subscribe((data) => {
-      this.BROWSE(data['reportType']);
-      data['reportType'] == 'All'
-        ? (this.pageTitle = 'Good, Missing, Damaged')
-        : (this.pageTitle = data['reportType']);
-    });
+    this.BROWSE();
   }
 
-  BROWSE = (type: string) => {
+  BROWSE = () => {
     this.apiService
-      .fetch(this.ReportsService, 'BROWSE', type)
+      .fetch(this.ReportsService, 'BROWSE', '')
       .subscribe(({ payload = [] }) => {
-        this.items = payload;
+        if (payload.length > 0) {
+          const arrangeByRooms = [...payload].reduce((acc, curr) => {
+            const { room } = curr;
+            const index = acc.findIndex((r: Room) => r._id === room._id);
+
+            if (index > -1) {
+              acc[index].items.push(curr);
+            } else {
+              acc.push({ ...room, items: [curr] });
+            }
+            return acc;
+          }, []);
+          this.rooms = arrangeByRooms;
+        }
+
         this.collections = payload;
-        console.log(payload);
-        this.paginationService.setItems(this.items);
+        this.paginationService.setItems(this.rooms);
         this.updateFilteredItems();
       });
   };
@@ -108,7 +123,7 @@ export class ReportComponent implements OnInit {
   }
 
   onSearch(query: string) {
-    this.items = this.items.filter(
+    this.rooms = this.rooms.filter(
       (item: any) =>
         item.name.toLowerCase().includes(query.toLowerCase()) ||
         item.brand?.name.toLowerCase().includes(query.toLowerCase()) ||
@@ -126,6 +141,6 @@ export class ReportComponent implements OnInit {
   }
 
   updateFilteredItems() {
-    this.items = this.paginationService.getFilteredItems();
+    this.rooms = this.paginationService.getFilteredItems();
   }
 }

@@ -1,7 +1,7 @@
 <div class="relative mb-4 mt-10">
   <header
-    [title]="pageTitle"
-    [items]="items"
+    [title]="'Report'"
+    [items]="rooms"
     (exportPDFEvent)="exportItemsPdf()"
     (search)="onSearch($event)"
     (handleStart)="handleStart($event)"
@@ -9,56 +9,70 @@
   ></header>
 
   <div class="overflow-x-auto bg-white p-5 shadow-lg rounded-sm">
-    <table class="min-w-full table-auto border-collapse mt-8">
+    <div class="mt-6 flex justify-around">
+      <div>
+        <span class="text-gray-500 font-normal">Annually</span> <br />
+        <select class="border-b w-60 h-9 cursor-pointer focus:outline-none">
+          <option>2021</option>
+          <option>2022</option>
+          <option>2023</option>
+          <option>2024</option>
+        </select>
+      </div>
+      <div>
+        <span class="text-gray-500 font-normal">Quarterly</span> <br />
+        <select class="border-b w-60 h-9 cursor-pointer focus:outline-none">
+          <option>1st</option>
+          <option>2nd</option>
+          <option>3rd</option>
+          <option>4th</option>
+        </select>
+      </div>
+      <div>
+        <span class="text-gray-500 font-normal">Room</span> <br />
+        <select class="border-b w-60 h-9 cursor-pointer focus:outline-none">
+          <option>2021</option>
+          <option>2022</option>
+          <option>2023</option>
+          <option>2024</option>
+        </select>
+      </div>
+    </div>
+    <hr class="mt-5 mb-5" />
+    @for (room of rooms; track $index) {
+    <h2 class="mt-5">
+      <strong class="uppercase">{{ room.name }}</strong>
+    </h2>
+    <table class="w-full border-collapse">
       <thead>
-        <tr class="text-black">
-          <th class="px-4 py-2 text-center font-normal">#</th>
-          <th class="px-4 py-2 text-left font-normal">Barcode</th>
-          <th class="px-4 py-2 text-left font-normal">Article</th>
-          <th class="px-4 py-2 text-left font-normal">Status</th>
-          <th class="px-4 py-2 text-left font-normal">Quantity</th>
-          <th class="px-4 py-2 text-left font-normal">Room</th>
-          <th class="px-4 py-2 text-left font-normal">Date</th>
-          <th class="px-4 py-2 text-left font-normal">Custodian</th>
+        <tr>
+          <th class="text-left px-4 py-2 font-normal">Barcode</th>
+          <th class="text-left px-4 py-2 font-normal">Article</th>
+          <th class="text-left text-center px-4 py-2 font-normal">Good</th>
+          <th class="text-left text-center px-4 py-2 font-normal">Missing</th>
+          <th class="text-left text-center px-4 py-2 font-normal">Damaged</th>
+          <th class="text-left text-center px-4 py-2 font-normal">Defective</th>
         </tr>
       </thead>
       <tbody>
-        @for(item of items; track item._id; let index = $index){
-        <tr class="border-t">
-          <td class="px-4 py-4 text-center">{{ index + 1 }}</td>
-          <td class="px-4 py-4">{{ item.barcode }}</td>
-          <td class="px-4 py-4">
+        @for (item of room.items; track $index) {
+        <tr class="border-t border-b">
+          <td class="px-4 py-2 text-left w-[12rem]">1023472128231</td>
+          <td class="px-4 py-2 text-left w-[12rem]">
             <strong>{{ item.name }}</strong>
             <small class="block">{{ item.brand.name }}</small>
           </td>
-          <td class="px-4 py-4">
-            <p>{{ item.status }}</p>
-            <small class="block">{{ item.condition || "" }}</small>
+          <td class="px-4 py-2 text-center w-[10rem]">12</td>
+          <td class="px-4 py-2 w-[10rem] text-center">
+            {{ item.quantity }}
           </td>
-          <td class="px-8 py-4">{{ item.quantity }}</td>
-          <td class="px-4 py-4">{{ item.room.name }}</td>
-          <td class="px-4 py-4 text-left">
-            {{ item.createdAt | date : "MMM dd, yyyy hh:mm:a" }}
-          </td>
-          <td class="px-4 py-4">{{ item?.registrar?.fullName || "--" }}</td>
+          <td class="px-4 py-2 w-[12rem] text-center">32</td>
+          <td class="px-4 py-2 w-[12rem] text-center">15</td>
         </tr>
         }
-        <tr
-          *ngIf="items.length === 0"
-          class="border-t hover:bg-gray-50 text-center"
-        >
-          <td class="px-4 py-4" colspan="6">No results found</td>
-        </tr>
       </tbody>
     </table>
 
-    <pagination
-      [totalItems]="paginationService.totalItems"
-      [(itemsPerPage)]="paginationService.itemsPerPage"
-      [currentPage]="paginationService.currentPage"
-      (itemsPerPageChange)="onItemsPerPageChange($event)"
-      (pageChange)="onPageChange($event)"
-    >
-    </pagination>
+    }
   </div>
 </div>
